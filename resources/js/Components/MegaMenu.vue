@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link } from "@inertiajs/vue3";
 
 defineProps({
     open: {
@@ -8,18 +8,18 @@ defineProps({
     },
     theme: {
         type: String,
-        default: 'dark',
+        default: "dark",
     },
 });
 
-defineEmits(['close', 'toggle-theme']);
+defineEmits(["close", "toggle-theme"]);
 </script>
 
 <template>
     <transition name="fade">
         <div
             v-if="open"
-            class="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-bg-soft)] px-6"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-surface)] px-6"
             @click.self="$emit('close')"
         >
             <button
@@ -31,18 +31,29 @@ defineEmits(['close', 'toggle-theme']);
             </button>
             <div class="w-full max-w-2xl">
                 <div class="flex items-center justify-between">
-                    <p class="text-xs uppercase tracking-[0.4em] text-[var(--color-muted)]">Theme</p>
+                    <p
+                        class="text-xs uppercase tracking-[0.4em] text-[var(--color-muted)]"
+                    >
+                        Theme
+                    </p>
                     <button
                         type="button"
                         class="inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] px-3 py-1 text-xs uppercase tracking-[0.25em] text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
                         @click="$emit('toggle-theme')"
                     >
-                        <i v-if="theme === 'dark'" class="fa-regular fa-sun"></i>
+                        <i
+                            v-if="theme === 'dark'"
+                            class="fa-regular fa-sun"
+                        ></i>
                         <i v-else class="fa-regular fa-moon"></i>
-                        <span>{{ theme === 'dark' ? 'Light' : 'Dark' }}</span>
+                        <span>{{ theme === "dark" ? "Light" : "Dark" }}</span>
                     </button>
                 </div>
-                <p class="mt-10 text-xs uppercase tracking-[0.4em] text-[var(--color-muted)]">Features</p>
+                <p
+                    class="mt-10 text-xs uppercase tracking-[0.4em] text-[var(--color-muted)]"
+                >
+                    Features
+                </p>
                 <div class="mt-6 space-y-4">
                     <Link
                         href="/components"
@@ -50,7 +61,9 @@ defineEmits(['close', 'toggle-theme']);
                         @click="$emit('close')"
                     >
                         Components
-                        <i class="fa-solid fa-arrow-right text-[var(--color-muted)]"></i>
+                        <i
+                            class="fa-solid fa-arrow-right text-[var(--color-muted)]"
+                        ></i>
                     </Link>
                 </div>
             </div>
