@@ -34,7 +34,7 @@ const copyPayload = async () => {
             </p>
             <button
                 type="button"
-                class="rounded-full border border-slate-700 px-3 py-1 text-xs uppercase tracking-[0.2em] text-slate-200 transition hover:border-slate-500 hover:text-white"
+                class="cursor-pointer rounded-full border border-slate-700 px-3 py-1 text-xs uppercase tracking-[0.2em] text-slate-200 transition hover:border-slate-500 hover:text-white"
                 @click="copyPayload"
             >
                 Copy

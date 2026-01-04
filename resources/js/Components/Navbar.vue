@@ -25,20 +25,20 @@ defineEmits(['toggle']);
                     href="/logout"
                     method="post"
                     as="button"
-                    class="hidden rounded-full border border-slate-800 px-3 py-2 text-xs uppercase tracking-[0.25em] text-slate-300 transition hover:border-slate-600 hover:text-white md:inline-flex"
+                    class="hidden cursor-pointer rounded-full border border-slate-800 px-3 py-2 text-xs uppercase tracking-[0.25em] text-slate-300 transition hover:border-slate-600 hover:text-white md:inline-flex"
                 >
                     Logout
                 </Link>
                 <Link
                     v-else
                     href="/login"
-                    class="hidden rounded-full border border-slate-800 px-3 py-2 text-xs uppercase tracking-[0.25em] text-slate-300 transition hover:border-slate-600 hover:text-white md:inline-flex"
+                    class="hidden cursor-pointer rounded-full border border-slate-800 px-3 py-2 text-xs uppercase tracking-[0.25em] text-slate-300 transition hover:border-slate-600 hover:text-white md:inline-flex"
                 >
                     Login
                 </Link>
                 <button
                     type="button"
-                    class="inline-flex items-center gap-2 rounded-full border border-slate-700 px-4 py-2 text-sm uppercase tracking-[0.25em] text-slate-200 transition hover:border-slate-500 hover:text-white"
+                    class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-slate-700 px-4 py-2 text-sm uppercase tracking-[0.25em] text-slate-200 transition hover:border-slate-500 hover:text-white"
                     @click="$emit('toggle')"
                 >
                     <span class="sr-only">Toggle menu</span>

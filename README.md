@@ -93,7 +93,9 @@ Authorization is enforced via:
    - `php artisan key:generate`
 5. Run migrations + seeders:
    - `php artisan migrate --seed`
-6. Start dev servers:
+6. Create the storage symlink for previews:
+   - `php artisan storage:link`
+7. Start dev servers:
    - `php artisan serve`
    - `pnpm dev`
 
@@ -104,8 +106,9 @@ Authorization is enforced via:
 
 ## Adding a New Component Item
 
-1. Update the catalog definitions in `app/Support/ComponentCatalog.php`.
-2. Re-run the seeder to sync database records:
+1. Use the Components page "Add Component" button to upload a screenshot and JSON payload.
+2. (Optional) Update the catalog definitions in `app/Support/ComponentCatalog.php`.
+3. Re-run the seeder to sync database records:
    - `php artisan db:seed --class=ComponentCatalogSeeder`
 
 ## Suggested Directory Layout

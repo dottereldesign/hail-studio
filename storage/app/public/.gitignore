@@ -1,2 +1,4 @@
 *
 !.gitignore
+!component-previews/
+!component-previews/placeholder.svg

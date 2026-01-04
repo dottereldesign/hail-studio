@@ -14,6 +14,8 @@ Route::middleware('guest')->group(function (): void {
 
 Route::middleware('auth')->group(function (): void {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/components', [ComponentsController::class, 'store'])
+        ->name('components.store');
     Route::get('/components/{category?}', [ComponentsController::class, 'index'])
         ->name('components.index');
 });

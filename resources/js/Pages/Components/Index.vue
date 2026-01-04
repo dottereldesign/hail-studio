@@ -1,9 +1,10 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Head, usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import ComponentsSidebar from '@/Components/ComponentsSidebar.vue';
 import ComponentTile from '@/Components/ComponentTile.vue';
+import AddComponentModal from '@/Components/AddComponentModal.vue';
 
 const props = defineProps({
     categories: {
@@ -20,7 +21,13 @@ const props = defineProps({
     },
 });
 
+const page = usePage();
+const allowedRoles = ['OWNER', 'ADMIN', 'EDITOR'];
+const canCreate = computed(() => allowedRoles.includes(page.props.auth?.user?.role ?? ''));
+const selectedCategoryId = computed(() => props.category?.id ?? props.categories[0]?.id ?? null);
+
 const sidebarOpen = ref(false);
+const modalOpen = ref(false);
 
 const closeSidebar = () => {
     sidebarOpen.value = false;
@@ -54,13 +61,23 @@ const closeSidebar = () => {
                             {{ components.length }} items
                         </p>
                     </div>
-                    <button
-                        type="button"
-                        class="md:hidden rounded-full border border-slate-700 px-4 py-2 text-xs uppercase tracking-[0.25em] text-slate-200"
-                        @click="sidebarOpen = true"
-                    >
-                        Categories
-                    </button>
+                    <div class="flex items-center gap-3">
+                        <button
+                            v-if="canCreate"
+                            type="button"
+                            class="rounded-full border border-slate-600 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-white transition hover:border-slate-400 hover:bg-white/20"
+                            @click="modalOpen = true"
+                        >
+                            Add Component
+                        </button>
+                        <button
+                            type="button"
+                            class="md:hidden rounded-full border border-slate-700 px-4 py-2 text-xs uppercase tracking-[0.25em] text-slate-200"
+                            @click="sidebarOpen = true"
+                        >
+                            Categories
+                        </button>
+                    </div>
                 </div>
 
                 <div v-if="components.length" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
@@ -75,6 +92,13 @@ const closeSidebar = () => {
                 </div>
             </div>
         </div>
+
+        <AddComponentModal
+            :open="modalOpen"
+            :categories="categories"
+            :selected-category-id="selectedCategoryId"
+            @close="modalOpen = false"
+        />
 
         <transition name="fade">
             <div v-if="sidebarOpen" class="fixed inset-0 z-40 bg-slate-950/80 md:hidden" @click="closeSidebar" />
