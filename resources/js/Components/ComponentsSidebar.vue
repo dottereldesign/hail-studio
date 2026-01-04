@@ -24,13 +24,13 @@ defineEmits(['select']);
             class="flex items-center justify-between rounded-xl px-3 py-2 text-sm transition"
             :class="
                 category.slug === activeSlug
-                    ? 'bg-slate-800 text-white'
-                    : 'text-slate-300 hover:bg-slate-900 hover:text-white'
+                    ? 'bg-[var(--color-surface-strong)] text-[var(--color-text)]'
+                    : 'text-[var(--color-muted)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]'
             "
             @click="$emit('select')"
         >
             <span>{{ category.name }}</span>
-            <span v-if="category.slug === activeSlug" class="text-xs text-slate-400">Active</span>
+            <span v-if="category.slug === activeSlug" class="text-xs text-[var(--color-muted)]">Active</span>
         </Link>
     </nav>
 </template>

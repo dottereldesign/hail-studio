@@ -12,7 +12,7 @@ const toasts = computed(() => state.toasts);
             <div
                 v-for="toast in toasts"
                 :key="toast.id"
-                class="pointer-events-auto rounded-2xl border border-slate-800 bg-slate-900/90 px-4 py-3 text-sm text-slate-100 shadow-lg"
+                class="pointer-events-auto rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-4 py-3 text-sm text-[var(--color-text)] shadow-lg"
                 :class="toast.type === 'error' ? 'border-rose-500/40 text-rose-100' : ''"
             >
                 {{ toast.message }}

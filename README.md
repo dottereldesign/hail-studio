@@ -25,6 +25,12 @@ The first module is **Components**: browse curated UI sections by category and c
   - `/components` shows the component browser with left sidebar categories and a main panel of tiles
   - `/components/<category>` deep-links to a category and keeps selection on refresh
 
+## Design System Notes
+
+- Primary content containers should use `max-width: 1440px` via the `layout__container` utility class.
+- Header inner container uses the BEM class `site-header__inner` for consistent targeting.
+- Components page content wrapper uses the BEM class `components-page__content`.
+
 ## Components Module (MVP)
 
 ### UX

@@ -183,10 +183,10 @@ const trapFocus = (event) => {
 
 <template>
     <transition name="fade">
-        <div v-if="open" class="fixed inset-0 z-50 bg-slate-950/80 px-6 py-10" @click.self="$emit('close')">
+        <div v-if="open" class="fixed inset-0 z-50 bg-[var(--color-bg-soft)] px-6 py-10" @click.self="$emit('close')">
             <div
                 ref="modalRef"
-                class="mx-auto w-full max-w-2xl rounded-3xl border border-slate-800 bg-slate-900/95 p-8 text-slate-100 shadow-xl"
+                class="mx-auto w-full max-w-2xl rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-8 text-[var(--color-text)] shadow-xl"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="add-component-title"
@@ -194,12 +194,12 @@ const trapFocus = (event) => {
             >
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Components</p>
+                        <p class="text-xs uppercase tracking-[0.3em] text-[var(--color-muted)]">Components</p>
                         <h2 id="add-component-title" class="mt-2 text-2xl font-semibold">Create Component</h2>
                     </div>
                     <button
                         type="button"
-                        class="rounded-full border border-slate-700 px-3 py-2 text-xs uppercase tracking-[0.2em] text-slate-200"
+                        class="rounded-full border border-[var(--color-border)] px-3 py-2 text-xs uppercase tracking-[0.2em] text-[var(--color-text)]"
                         @click="$emit('close')"
                     >
                         Close
@@ -208,12 +208,12 @@ const trapFocus = (event) => {
 
                 <form class="mt-6 space-y-6" @submit.prevent="submit">
                     <div>
-                        <label class="text-xs uppercase tracking-[0.2em] text-slate-400">Name</label>
+                        <label class="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">Name</label>
                         <input
                             ref="nameInput"
                             v-model="form.name"
                             type="text"
-                            class="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-2 text-sm text-slate-100 focus:border-slate-500 focus:outline-none"
+                            class="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 text-sm text-[var(--color-text)] focus:border-[var(--color-border-strong)] focus:outline-none"
                             placeholder="e.g. Pricing Sections 3"
                             required
                         >
@@ -223,10 +223,10 @@ const trapFocus = (event) => {
                     </div>
 
                     <div>
-                        <label class="text-xs uppercase tracking-[0.2em] text-slate-400">Category</label>
+                        <label class="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">Category</label>
                         <select
                             v-model.number="form.component_category_id"
-                            class="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-2 text-sm text-slate-100 focus:border-slate-500 focus:outline-none"
+                            class="mt-2 w-full rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-2 text-sm text-[var(--color-text)] focus:border-[var(--color-border-strong)] focus:outline-none"
                             required
                         >
                             <option
@@ -243,10 +243,10 @@ const trapFocus = (event) => {
                     </div>
 
                     <div>
-                        <label class="text-xs uppercase tracking-[0.2em] text-slate-400">Screenshot</label>
+                        <label class="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">Screenshot</label>
                         <div
-                            class="mt-2 flex cursor-pointer items-center gap-4 rounded-2xl border border-dashed border-slate-700 bg-slate-950/60 p-4 transition"
-                            :class="dragActive ? 'border-slate-400 bg-slate-900/60' : ''"
+                            class="mt-2 flex cursor-pointer items-center gap-4 rounded-2xl border border-dashed border-[var(--color-border)] bg-[var(--color-surface-muted)] p-4 transition"
+                            :class="dragActive ? 'border-[var(--color-border-strong)] bg-[var(--color-surface)]' : ''"
                             @click="openFileDialog"
                             @dragover.prevent="dragActive = true"
                             @dragleave.prevent="dragActive = false"
@@ -260,7 +260,7 @@ const trapFocus = (event) => {
                                 @change="handleFileChange"
                             >
                             <div
-                                class="flex h-20 w-28 items-center justify-center overflow-hidden rounded-xl border border-slate-800 bg-slate-900"
+                                class="flex h-20 w-28 items-center justify-center overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]"
                             >
                                 <img
                                     v-if="previewUrl"
@@ -268,11 +268,11 @@ const trapFocus = (event) => {
                                     alt="Screenshot preview"
                                     class="h-full w-full object-cover"
                                 >
-                                <span v-else class="text-xs text-slate-500">Preview</span>
+                                <span v-else class="text-xs text-[var(--color-muted-soft)]">Preview</span>
                             </div>
-                            <div class="text-sm text-slate-300">
-                                <p class="font-semibold text-slate-100">Drop an image here</p>
-                                <p class="text-xs text-slate-500">or click to upload (PNG, JPG, WEBP)</p>
+                            <div class="text-sm text-[var(--color-muted)]">
+                                <p class="font-semibold text-[var(--color-text)]">Drop an image here</p>
+                                <p class="text-xs text-[var(--color-muted-soft)]">or click to upload (PNG, JPG, WEBP)</p>
                             </div>
                         </div>
                         <p v-if="form.errors.screenshot" class="mt-2 text-xs text-rose-300">
@@ -282,10 +282,10 @@ const trapFocus = (event) => {
 
                     <div>
                         <div class="flex items-center justify-between">
-                            <label class="text-xs uppercase tracking-[0.2em] text-slate-400">JSON Payload</label>
+                            <label class="text-xs uppercase tracking-[0.2em] text-[var(--color-muted)]">JSON Payload</label>
                             <button
                                 type="button"
-                                class="rounded-full border border-slate-700 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-slate-200"
+                                class="rounded-full border border-[var(--color-border)] px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-[var(--color-text)]"
                                 @click="formatJson"
                             >
                                 Format JSON
@@ -293,7 +293,7 @@ const trapFocus = (event) => {
                         </div>
                         <textarea
                             v-model="form.payload"
-                            class="mt-2 min-h-[180px] w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 font-mono text-xs text-slate-100 focus:border-slate-500 focus:outline-none"
+                            class="mt-2 min-h-[180px] w-full rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface)] px-4 py-3 font-mono text-xs text-[var(--color-text)] focus:border-[var(--color-border-strong)] focus:outline-none"
                             placeholder='{"name": "Pricing Sections 3", "layout": {"variant": "default"}}'
                             required
                             @input="payloadError = ''"
@@ -306,14 +306,14 @@ const trapFocus = (event) => {
                     <div class="flex items-center justify-end gap-3">
                         <button
                             type="button"
-                            class="rounded-full border border-slate-700 px-4 py-2 text-xs uppercase tracking-[0.2em] text-slate-200"
+                            class="rounded-full border border-[var(--color-border)] px-4 py-2 text-xs uppercase tracking-[0.2em] text-[var(--color-text)]"
                             @click="$emit('close')"
                         >
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            class="rounded-full border border-slate-600 bg-white/10 px-5 py-2 text-xs uppercase tracking-[0.3em] text-white transition hover:border-slate-400 hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-60"
+                            class="rounded-full border border-[var(--color-border-strong)] bg-white/10 px-5 py-2 text-xs uppercase tracking-[0.3em] text-[var(--color-text)] transition hover:border-[var(--color-border-strong)] hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-60"
                             :disabled="submitDisabled"
                         >
                             Save

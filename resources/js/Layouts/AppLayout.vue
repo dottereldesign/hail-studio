@@ -1,10 +1,11 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import Navbar from '@/Components/Navbar.vue';
 import MegaMenu from '@/Components/MegaMenu.vue';
 import ToastContainer from '@/Components/ToastContainer.vue';
 
 const megaMenuOpen = ref(false);
+const theme = ref('dark');
 
 const toggleMegaMenu = () => {
     megaMenuOpen.value = !megaMenuOpen.value;
@@ -13,12 +14,32 @@ const toggleMegaMenu = () => {
 const closeMegaMenu = () => {
     megaMenuOpen.value = false;
 };
+
+const applyTheme = (value) => {
+    theme.value = value;
+    document.documentElement.dataset.theme = value;
+    localStorage.setItem('theme', value);
+};
+
+const toggleTheme = () => {
+    applyTheme(theme.value === 'dark' ? 'light' : 'dark');
+};
+
+onMounted(() => {
+    const stored = localStorage.getItem('theme');
+    applyTheme(stored ?? 'dark');
+});
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-950 text-slate-100">
+    <div class="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
         <Navbar :is-open="megaMenuOpen" @toggle="toggleMegaMenu" />
-        <MegaMenu :open="megaMenuOpen" @close="closeMegaMenu" />
+        <MegaMenu
+            :open="megaMenuOpen"
+            :theme="theme"
+            @close="closeMegaMenu"
+            @toggle-theme="toggleTheme"
+        />
         <main class="pt-16">
             <slot />
         </main>

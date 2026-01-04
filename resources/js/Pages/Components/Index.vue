@@ -28,8 +28,8 @@ const selectedCategoryId = computed(() => props.category?.id ?? props.categories
 const isNavbarsCategory = computed(() => props.category?.slug === 'navbars');
 const addButtonClass = computed(() =>
     isNavbarsCategory.value
-        ? 'border-emerald-500/50 bg-emerald-600/30 text-emerald-50 hover:border-emerald-400 hover:bg-emerald-500/40'
-        : 'border-emerald-500/40 bg-emerald-500/15 text-emerald-100 hover:border-emerald-400 hover:bg-emerald-500/25'
+        ? 'border-emerald-500/60 bg-emerald-700/40 text-emerald-50 hover:border-emerald-400 hover:bg-emerald-600/50'
+        : 'border-emerald-500/40 bg-emerald-600/20 text-emerald-100 hover:border-emerald-400 hover:bg-emerald-500/30'
 );
 
 const sidebarOpen = ref(false);
@@ -43,10 +43,10 @@ const closeSidebar = () => {
 <template>
     <AppLayout>
         <Head :title="category?.name ?? 'Components'" />
-        <div class="mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl gap-6 px-6 py-8">
+        <div class="components-page__content layout__container mx-auto flex min-h-[calc(100vh-4rem)] gap-6 px-6 py-8">
             <aside class="hidden w-64 shrink-0 md:block">
-                <div class="rounded-2xl border border-slate-800 bg-slate-900/40 p-4">
-                    <h2 class="text-xs uppercase tracking-[0.3em] text-slate-400">Categories</h2>
+                <div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] p-4">
+                    <h2 class="text-xs uppercase tracking-[0.3em] text-[var(--color-muted)]">Categories</h2>
                     <div class="mt-4">
                         <ComponentsSidebar
                             :categories="categories"
@@ -59,11 +59,11 @@ const closeSidebar = () => {
             <div class="flex-1 space-y-6">
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <div>
-                        <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Components Library</p>
+                        <p class="text-xs uppercase tracking-[0.3em] text-[var(--color-muted)]">Components Library</p>
                         <h1 class="mt-2 text-3xl font-semibold">
                             {{ category?.name ?? 'Components' }}
                         </h1>
-                        <p class="mt-1 text-sm text-slate-400">
+                        <p class="mt-1 text-sm text-[var(--color-muted)]">
                             {{ components.length }} items
                         </p>
                     </div>
@@ -82,7 +82,7 @@ const closeSidebar = () => {
                         </button>
                         <button
                             type="button"
-                            class="md:hidden rounded-full border border-slate-700 px-4 py-2 text-xs uppercase tracking-[0.25em] text-slate-200"
+                            class="md:hidden rounded-full border border-[var(--color-border)] px-4 py-2 text-xs uppercase tracking-[0.25em] text-[var(--color-text)]"
                             @click="sidebarOpen = true"
                         >
                             Categories
@@ -97,8 +97,8 @@ const closeSidebar = () => {
                         :component="component"
                     />
                 </div>
-                <div v-else class="rounded-2xl border border-dashed border-slate-800 p-10 text-center">
-                    <p class="text-sm text-slate-400">No components yet for this category.</p>
+                <div v-else class="rounded-2xl border border-dashed border-[var(--color-border)] p-10 text-center">
+                    <p class="text-sm text-[var(--color-muted)]">No components yet for this category.</p>
                 </div>
             </div>
         </div>
@@ -111,14 +111,14 @@ const closeSidebar = () => {
         />
 
         <transition name="fade">
-            <div v-if="sidebarOpen" class="fixed inset-0 z-40 bg-slate-950/80 md:hidden" @click="closeSidebar" />
+            <div v-if="sidebarOpen" class="fixed inset-0 z-40 bg-[var(--color-bg-soft)] md:hidden" @click="closeSidebar" />
         </transition>
         <transition name="slide">
             <aside
                 v-if="sidebarOpen"
-                class="fixed left-0 top-16 z-50 h-[calc(100vh-4rem)] w-72 overflow-y-auto border-r border-slate-800 bg-slate-950 p-6 md:hidden"
+                class="fixed left-0 top-16 z-50 h-[calc(100vh-4rem)] w-72 overflow-y-auto border-r border-[var(--color-border)] bg-[var(--color-bg)] p-6 md:hidden"
             >
-                <h2 class="text-xs uppercase tracking-[0.3em] text-slate-400">Categories</h2>
+                <h2 class="text-xs uppercase tracking-[0.3em] text-[var(--color-muted)]">Categories</h2>
                 <div class="mt-4">
                     <ComponentsSidebar
                         :categories="categories"

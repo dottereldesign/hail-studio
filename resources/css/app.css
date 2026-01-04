@@ -12,11 +12,49 @@
 }
 
 @layer base {
+    :root {
+        color-scheme: dark;
+        --color-bg: #0b1120;
+        --color-bg-soft: rgba(2, 6, 23, 0.85);
+        --color-surface: #0f172a;
+        --color-surface-muted: rgba(15, 23, 42, 0.6);
+        --color-surface-strong: #111827;
+        --color-card: rgba(15, 23, 42, 0.4);
+        --color-border: #1f2937;
+        --color-border-strong: #334155;
+        --color-text: #f8fafc;
+        --color-muted: #94a3b8;
+        --color-muted-strong: #cbd5f5;
+        --color-muted-soft: #64748b;
+    }
+
+    :root[data-theme='light'] {
+        color-scheme: light;
+        --color-bg: #f8fafc;
+        --color-bg-soft: rgba(248, 250, 252, 0.9);
+        --color-surface: #ffffff;
+        --color-surface-muted: rgba(248, 250, 252, 0.8);
+        --color-surface-strong: #e2e8f0;
+        --color-card: rgba(255, 255, 255, 0.7);
+        --color-border: #e2e8f0;
+        --color-border-strong: #cbd5f5;
+        --color-text: #0f172a;
+        --color-muted: #475569;
+        --color-muted-strong: #1e293b;
+        --color-muted-soft: #64748b;
+    }
+
     button {
         @apply cursor-pointer;
     }
 
     a {
         @apply cursor-pointer;
+    }
+}
+
+@layer utilities {
+    .layout__container {
+        max-width: 1440px;
     }
 }
