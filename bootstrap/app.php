@@ -41,7 +41,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 'exception' => $exception::class,
                 'path' => $request->path(),
                 'method' => $request->method(),
-                'status' => method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : null,
+                'status' => $exception instanceof \Symfony\Component\HttpKernel\Exception\HttpExceptionInterface ? $exception->getStatusCode() : null,
                 'user_id' => $user?->id,
                 'role' => $user?->role(),
                 'organization_id' => $user?->currentOrganizationId(),
