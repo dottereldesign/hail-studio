@@ -34,7 +34,7 @@ defineEmits(['close']);
                         @click="$emit('close')"
                     >
                         Components
-                        <span class="text-slate-400">-&gt;</span>
+                        <i class="fa-solid fa-arrow-right text-slate-400"></i>
                     </Link>
                 </div>
             </div>

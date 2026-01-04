@@ -25,6 +25,12 @@ const page = usePage();
 const allowedRoles = ['OWNER', 'ADMIN', 'EDITOR'];
 const canCreate = computed(() => allowedRoles.includes(page.props.auth?.user?.role ?? ''));
 const selectedCategoryId = computed(() => props.category?.id ?? props.categories[0]?.id ?? null);
+const isNavbarsCategory = computed(() => props.category?.slug === 'navbars');
+const addButtonClass = computed(() =>
+    isNavbarsCategory.value
+        ? 'border-emerald-500/50 bg-emerald-600/30 text-emerald-50 hover:border-emerald-400 hover:bg-emerald-500/40'
+        : 'border-emerald-500/40 bg-emerald-500/15 text-emerald-100 hover:border-emerald-400 hover:bg-emerald-500/25'
+);
 
 const sidebarOpen = ref(false);
 const modalOpen = ref(false);
@@ -65,10 +71,14 @@ const closeSidebar = () => {
                         <button
                             v-if="canCreate"
                             type="button"
-                            class="rounded-full border border-slate-600 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-white transition hover:border-slate-400 hover:bg-white/20"
+                            class="rounded-full border px-4 py-2 text-xs uppercase tracking-[0.3em] text-white transition"
+                            :class="addButtonClass"
                             @click="modalOpen = true"
                         >
-                            Add Component
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-plus text-[10px]"></i>
+                                Add Component
+                            </span>
                         </button>
                         <button
                             type="button"

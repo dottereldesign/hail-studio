@@ -34,10 +34,13 @@ const copyPayload = async () => {
             </p>
             <button
                 type="button"
-                class="cursor-pointer rounded-full border border-slate-700 px-3 py-1 text-xs uppercase tracking-[0.2em] text-slate-200 transition hover:border-slate-500 hover:text-white"
+                class="cursor-pointer rounded-full border border-sky-500/40 bg-sky-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-sky-100 transition hover:border-sky-400 hover:bg-sky-500/20 hover:text-white"
                 @click="copyPayload"
             >
-                Copy
+                <span class="flex items-center gap-2">
+                    <i class="fa-regular fa-clipboard text-[11px]"></i>
+                    Copy
+                </span>
             </button>
         </div>
     </div>

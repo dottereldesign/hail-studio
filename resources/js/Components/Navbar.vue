@@ -38,12 +38,12 @@ defineEmits(['toggle']);
                 </Link>
                 <button
                     type="button"
-                    class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-slate-700 px-4 py-2 text-sm uppercase tracking-[0.25em] text-slate-200 transition hover:border-slate-500 hover:text-white"
+                    class="inline-flex cursor-pointer items-center gap-3 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-sm uppercase tracking-[0.25em] text-emerald-100 transition hover:border-emerald-400 hover:bg-emerald-500/20 hover:text-white"
                     @click="$emit('toggle')"
                 >
                     <span class="sr-only">Toggle menu</span>
                     <span>{{ isOpen ? 'Close' : 'Menu' }}</span>
-                    <span class="text-base leading-none">|||</span>
+                    <i class="fa-solid fa-bars text-base"></i>
                 </button>
             </div>
         </div>
