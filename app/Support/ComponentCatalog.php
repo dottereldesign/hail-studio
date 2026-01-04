@@ -67,7 +67,7 @@ class ComponentCatalog
             $items[] = [
                 'name' => sprintf('%s %d', $categoryName, $index),
                 'slug' => sprintf('%s-%d', $categorySlug, $index),
-                'image_url' => '/components/placeholder.svg',
+                'image_url' => '/storage/component-previews/placeholder.svg',
                 'payload' => [
                     'id' => sprintf('%s-%d', $categorySlug, $index),
                     'name' => sprintf('%s %d', $categoryName, $index),
