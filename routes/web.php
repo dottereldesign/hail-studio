@@ -4,11 +4,20 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ComponentsController;
 use App\Http\Controllers\ErrorController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardUsersController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ResourcesController;
+use App\Http\Controllers\SearchSchoolsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/api', [ApiController::class, 'index'])->name('api.index');
+Route::get('/search-schools', [SearchSchoolsController::class, 'index'])->name('search-schools.index');
+Route::get('/resources/licenses', [ResourcesController::class, 'licenses'])->name('resources.licenses');
+Route::get('/resources/roadmap', [ResourcesController::class, 'roadmap'])->name('resources.roadmap');
+Route::get('/resources/launch-checklist', [ResourcesController::class, 'launchChecklist'])
+    ->name('resources.launch-checklist');
 Route::get('/error', [ErrorController::class, 'index'])->name('error');
 
 Route::middleware('guest')->group(function (): void {
@@ -18,6 +27,14 @@ Route::middleware('guest')->group(function (): void {
 
 Route::middleware('auth')->group(function (): void {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::post('/dashboard', [DashboardController::class, 'update'])->name('dashboard.update');
+    Route::get('/dashboard/users', [DashboardUsersController::class, 'index'])->name('dashboard.users.index');
+    Route::post('/dashboard/users', [DashboardUsersController::class, 'store'])->name('dashboard.users.store');
+    Route::patch('/dashboard/users/{user}', [DashboardUsersController::class, 'update'])
+        ->name('dashboard.users.update');
+    Route::delete('/dashboard/users/{user}', [DashboardUsersController::class, 'destroy'])
+        ->name('dashboard.users.destroy');
     Route::post('/components', [ComponentsController::class, 'store'])
         ->name('components.store');
     Route::get('/components/{component}/payload', [ComponentsController::class, 'payload'])

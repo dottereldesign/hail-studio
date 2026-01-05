@@ -15,10 +15,10 @@
 @layer base {
     :root {
         color-scheme: light;
-        --color-bg: #f8fafc;
-        --color-bg-soft: rgba(248, 250, 252, 0.9);
-        --color-surface: #ffffff;
-        --color-surface-muted: rgba(248, 250, 252, 0.8);
+        --color-bg: #f8f8f8;
+        --color-bg-soft: #fdfdfd;
+        --color-surface: #f8f8f8;
+        --color-surface-muted: #fdfdfd;
         --color-surface-strong: #e2e8f0;
         --color-card: rgba(255, 255, 255, 0.7);
         --color-border: #e2e8f0;
@@ -181,6 +181,29 @@
         background-color: var(--danger-bg);
         border-color: var(--danger-border);
         color: var(--danger-fg);
+    }
+
+    .menu-card {
+        @apply w-full rounded-2xl border px-6 py-5 transition;
+        background-color: var(--color-surface-muted);
+        border-color: var(--color-border);
+        color: var(--color-text);
+    }
+
+    .menu-card:hover {
+        border-color: var(--color-border-strong);
+    }
+
+    .menu-card--primary {
+        background-color: var(--accent-primary-bg-hover);
+        border-color: var(--accent-primary-border);
+        color: var(--accent-primary-fg);
+    }
+
+    .menu-card--primary:hover {
+        background-color: var(--accent-primary-bg);
+        border-color: var(--accent-primary-border-hover);
+        color: var(--accent-primary-fg);
     }
 
     .form-error {

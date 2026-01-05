@@ -32,6 +32,13 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
 
+        Gate::define('dashboard.users.manage', function (User $user): bool {
+            return $user->hasAnyRole([
+                Membership::ROLE_OWNER,
+                Membership::ROLE_ADMIN,
+            ]);
+        });
+
         Gate::after(function (?User $user, string $ability, mixed $result, array $arguments): void {
             if ($result !== false || ! LogContext::isDebugEnabled()) {
                 return;

@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar_path',
     ];
 
     /**
@@ -90,5 +91,14 @@ class User extends Authenticatable
             : $this->currentMembership()->first();
 
         return $membership?->organization_id;
+    }
+
+    public function getAvatarUrlAttribute(): ?string
+    {
+        if (! $this->avatar_path) {
+            return null;
+        }
+
+        return \Illuminate\Support\Facades\Storage::url($this->avatar_path);
     }
 }
