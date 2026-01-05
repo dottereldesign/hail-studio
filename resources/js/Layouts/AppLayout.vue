@@ -5,7 +5,7 @@ import MegaMenu from '@/Components/MegaMenu.vue';
 import ToastContainer from '@/Components/ToastContainer.vue';
 
 const megaMenuOpen = ref(false);
-const theme = ref('dark');
+const theme = ref('light');
 
 const toggleMegaMenu = () => {
     megaMenuOpen.value = !megaMenuOpen.value;
@@ -27,7 +27,7 @@ const toggleTheme = () => {
 
 onMounted(() => {
     const stored = localStorage.getItem('theme');
-    applyTheme(stored ?? 'dark');
+    applyTheme(stored ?? 'light');
 });
 </script>
 

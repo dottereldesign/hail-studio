@@ -3,10 +3,32 @@ import './bootstrap';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
+import { pushToast } from '@/lib/toast';
 
 const isDebug = import.meta.env.DEV && import.meta.env.VITE_DEBUG !== 'false';
+const reloadStateKey = '__hailSessionReloaded';
 
 const installGlobalErrorHandlers = (app) => {
+    document.addEventListener('inertia:error', (event) => {
+        const status = event.detail?.response?.status ?? null;
+
+        if (status === 419) {
+            if (!window[reloadStateKey]) {
+                window[reloadStateKey] = true;
+                pushToast('Session expired. Reloading…', 'error');
+                window.setTimeout(() => {
+                    window.location.reload();
+                }, 1200);
+            }
+            return;
+        }
+
+        if (status === 500) {
+            window.location.href = '/error';
+            return;
+        }
+    });
+
     app.config.errorHandler = (error, instance, info) => {
         if (!isDebug) {
             return;

@@ -11,7 +11,14 @@ class ComponentCatalogSeeder extends Seeder
 {
     public function run(): void
     {
-        $organization = Organization::query()->firstOrFail();
+        $organization = Organization::query()->first();
+
+        if (! $organization) {
+            $organization = Organization::query()->create([
+                'name' => 'hail Studio',
+                'slug' => 'hail-studio',
+            ]);
+        }
 
         foreach (ComponentCatalog::categories() as $index => $categoryData) {
             ComponentCategory::query()->updateOrCreate(

@@ -14,22 +14,6 @@
 
 @layer base {
     :root {
-        color-scheme: dark;
-        --color-bg: #0b1120;
-        --color-bg-soft: rgba(2, 6, 23, 0.85);
-        --color-surface: #0f172a;
-        --color-surface-muted: rgba(15, 23, 42, 0.6);
-        --color-surface-strong: #111827;
-        --color-card: rgba(15, 23, 42, 0.4);
-        --color-border: #1f2937;
-        --color-border-strong: #334155;
-        --color-text: #f8fafc;
-        --color-muted: #94a3b8;
-        --color-muted-strong: #cbd5f5;
-        --color-muted-soft: #64748b;
-    }
-
-    :root[data-theme="light"] {
         color-scheme: light;
         --color-bg: #f8fafc;
         --color-bg-soft: rgba(248, 250, 252, 0.9);
@@ -43,6 +27,58 @@
         --color-muted: #475569;
         --color-muted-strong: #1e293b;
         --color-muted-soft: #64748b;
+
+        --accent-primary-bg: rgba(16, 185, 129, 0.14);
+        --accent-primary-bg-hover: rgba(16, 185, 129, 0.22);
+        --accent-primary-border: rgba(16, 185, 129, 0.45);
+        --accent-primary-border-hover: rgba(16, 185, 129, 0.65);
+        --accent-primary-fg: #065f46;
+
+        --accent-secondary-bg: rgba(14, 165, 233, 0.14);
+        --accent-secondary-bg-hover: rgba(14, 165, 233, 0.22);
+        --accent-secondary-border: rgba(14, 165, 233, 0.45);
+        --accent-secondary-border-hover: rgba(14, 165, 233, 0.65);
+        --accent-secondary-fg: #075985;
+
+        --danger-bg: rgba(244, 63, 94, 0.12);
+        --danger-border: rgba(244, 63, 94, 0.55);
+        --danger-fg: #9f1239;
+
+        --focus-ring: rgba(14, 165, 233, 0.45);
+    }
+
+    :root[data-theme="dark"] {
+        color-scheme: dark;
+        --color-bg: #0b1120;
+        --color-bg-soft: rgba(2, 6, 23, 0.85);
+        --color-surface: #0f172a;
+        --color-surface-muted: rgba(15, 23, 42, 0.6);
+        --color-surface-strong: #111827;
+        --color-card: rgba(15, 23, 42, 0.4);
+        --color-border: #1f2937;
+        --color-border-strong: #334155;
+        --color-text: #f8fafc;
+        --color-muted: #94a3b8;
+        --color-muted-strong: #cbd5f5;
+        --color-muted-soft: #64748b;
+
+        --accent-primary-bg: rgba(16, 185, 129, 0.2);
+        --accent-primary-bg-hover: rgba(16, 185, 129, 0.32);
+        --accent-primary-border: rgba(16, 185, 129, 0.6);
+        --accent-primary-border-hover: rgba(16, 185, 129, 0.8);
+        --accent-primary-fg: #d1fae5;
+
+        --accent-secondary-bg: rgba(14, 165, 233, 0.2);
+        --accent-secondary-bg-hover: rgba(14, 165, 233, 0.32);
+        --accent-secondary-border: rgba(14, 165, 233, 0.6);
+        --accent-secondary-border-hover: rgba(14, 165, 233, 0.8);
+        --accent-secondary-fg: #e0f2fe;
+
+        --danger-bg: rgba(244, 63, 94, 0.22);
+        --danger-border: rgba(244, 63, 94, 0.7);
+        --danger-fg: #fecdd3;
+
+        --focus-ring: rgba(125, 211, 252, 0.7);
     }
 
     body {
@@ -55,6 +91,106 @@
 
     a {
         @apply cursor-pointer;
+    }
+
+    button,
+    a,
+    input,
+    select,
+    textarea {
+        @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg)];
+    }
+}
+
+@layer components {
+    .btn {
+        @apply inline-flex items-center gap-2 rounded-full border transition;
+    }
+
+    .btn--primary {
+        background-color: var(--accent-primary-bg);
+        border-color: var(--accent-primary-border);
+        color: var(--accent-primary-fg);
+    }
+
+    .btn--primary:hover {
+        background-color: var(--accent-primary-bg-hover);
+        border-color: var(--accent-primary-border-hover);
+        color: var(--accent-primary-fg);
+    }
+
+    .btn--primary-strong {
+        background-color: var(--accent-primary-bg-hover);
+        border-color: var(--accent-primary-border-hover);
+        color: var(--accent-primary-fg);
+    }
+
+    .btn--secondary {
+        background-color: var(--accent-secondary-bg);
+        border-color: var(--accent-secondary-border);
+        color: var(--accent-secondary-fg);
+    }
+
+    .btn--secondary:hover {
+        background-color: var(--accent-secondary-bg-hover);
+        border-color: var(--accent-secondary-border-hover);
+        color: var(--accent-secondary-fg);
+    }
+
+    .btn--ghost {
+        background-color: transparent;
+        border-color: var(--color-border-strong);
+        color: var(--color-muted);
+    }
+
+    .btn--ghost:hover {
+        background-color: var(--color-surface-muted);
+        border-color: var(--color-border-strong);
+        color: var(--color-text);
+    }
+
+    .btn--danger {
+        background-color: var(--danger-bg);
+        border-color: var(--danger-border);
+        color: var(--danger-fg);
+    }
+
+    .btn--danger:hover {
+        background-color: var(--danger-bg);
+        border-color: var(--danger-border);
+        color: var(--danger-fg);
+    }
+
+    .badge {
+        @apply inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs uppercase tracking-[0.2em];
+    }
+
+    .badge--primary {
+        background-color: var(--accent-primary-bg);
+        border-color: var(--accent-primary-border);
+        color: var(--accent-primary-fg);
+    }
+
+    .badge--secondary {
+        background-color: var(--accent-secondary-bg);
+        border-color: var(--accent-secondary-border);
+        color: var(--accent-secondary-fg);
+    }
+
+    .badge--danger {
+        background-color: var(--danger-bg);
+        border-color: var(--danger-border);
+        color: var(--danger-fg);
+    }
+
+    .form-error {
+        color: var(--danger-fg);
+    }
+
+    .toast--error {
+        border-color: var(--danger-border);
+        color: var(--danger-fg);
+        background-color: var(--danger-bg);
     }
 }
 

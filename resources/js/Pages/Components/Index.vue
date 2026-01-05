@@ -1,5 +1,5 @@
 <script setup>
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import AppLayout from '@/Layouts/AppLayout.vue';
 import ComponentsSidebar from '@/Components/ComponentsSidebar.vue';
@@ -16,8 +16,8 @@ const props = defineProps({
         default: null,
     },
     components: {
-        type: Array,
-        default: () => [],
+        type: Object,
+        default: () => ({ data: [], total: 0, current_page: 1, last_page: 1, links: [] }),
     },
 });
 
@@ -27,13 +27,16 @@ const canCreate = computed(() => allowedRoles.includes(page.props.auth?.user?.ro
 const selectedCategoryId = computed(() => props.category?.id ?? props.categories[0]?.id ?? null);
 const isNavbarsCategory = computed(() => props.category?.slug === 'navbars');
 const addButtonClass = computed(() =>
-    isNavbarsCategory.value
-        ? 'border-emerald-500/60 bg-emerald-700/40 text-emerald-50 hover:border-emerald-400 hover:bg-emerald-600/50'
-        : 'border-emerald-500/40 bg-emerald-600/20 text-emerald-100 hover:border-emerald-400 hover:bg-emerald-500/30'
+    isNavbarsCategory.value ? 'btn--primary-strong' : 'btn--primary'
 );
 
 const sidebarOpen = ref(false);
 const modalOpen = ref(false);
+
+const componentItems = computed(() => props.components?.data ?? []);
+const totalCount = computed(() => props.components?.total ?? componentItems.value.length);
+const paginationLinks = computed(() => props.components?.links ?? []);
+const currentPage = computed(() => props.components?.current_page ?? 1);
 
 const closeSidebar = () => {
     sidebarOpen.value = false;
@@ -64,14 +67,14 @@ const closeSidebar = () => {
                             {{ category?.name ?? 'Components' }}
                         </h1>
                         <p class="mt-1 text-sm text-[var(--color-muted)]">
-                            {{ components.length }} items
+                            {{ totalCount }} items
                         </p>
                     </div>
                     <div class="flex items-center gap-3">
                         <button
                             v-if="canCreate"
                             type="button"
-                            class="rounded-full border px-4 py-2 text-xs uppercase tracking-[0.3em] text-white transition"
+                            class="btn border-2 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em]"
                             :class="addButtonClass"
                             @click="modalOpen = true"
                         >
@@ -90,15 +93,33 @@ const closeSidebar = () => {
                     </div>
                 </div>
 
-                <div v-if="components.length" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+                <div v-if="componentItems.length" class="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
                     <ComponentTile
-                        v-for="component in components"
+                        v-for="component in componentItems"
                         :key="component.id"
                         :component="component"
+                        :page="currentPage"
                     />
                 </div>
                 <div v-else class="rounded-2xl border border-dashed border-[var(--color-border)] p-10 text-center">
                     <p class="text-sm text-[var(--color-muted)]">No components yet for this category.</p>
+                </div>
+
+                <div v-if="paginationLinks.length > 3" class="flex flex-wrap items-center gap-2">
+                    <Link
+                        v-for="link in paginationLinks"
+                        :key="link.label"
+                        :href="link.url || '#'"
+                        class="btn px-3 py-1 text-[10px] uppercase tracking-[0.2em]"
+                        :class="[
+                            link.active
+                                ? 'btn--primary'
+                                : 'border-[var(--color-border)] text-[var(--color-text)] hover:border-[var(--color-border-strong)]',
+                            !link.url ? 'pointer-events-none opacity-40' : '',
+                        ]"
+                    >
+                        <span v-html="link.label" />
+                    </Link>
                 </div>
             </div>
         </div>

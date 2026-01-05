@@ -60,7 +60,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                             class="flex flex-wrap items-center gap-3 text-sm text-[var(--color-muted)]"
                         >
                             <span
-                                class="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-emerald-100"
+                                class="badge badge--primary"
                             >
                                 Users
                             </span>
@@ -86,7 +86,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                     >
                         <div class="flex flex-wrap items-center gap-4">
                             <span
-                                class="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-emerald-100"
+                                class="badge badge--primary"
                             >
                                 GET
                             </span>
@@ -272,7 +272,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                     >
                         <div class="flex flex-wrap items-center gap-4">
                             <span
-                                class="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-emerald-100"
+                                class="badge badge--primary"
                             >
                                 GET
                             </span>
@@ -387,7 +387,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                     >
                         <div class="flex flex-wrap items-center gap-4">
                             <span
-                                class="rounded-full border border-sky-500/40 bg-sky-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-sky-100"
+                                class="badge badge--secondary"
                             >
                                 PUT
                             </span>
@@ -532,7 +532,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                     >
                         <div class="flex flex-wrap items-center gap-4">
                             <span
-                                class="rounded-full border border-sky-500/40 bg-sky-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-sky-100"
+                                class="badge badge--secondary"
                             >
                                 POST
                             </span>
@@ -623,7 +623,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                     >
                         <div class="flex flex-wrap items-center gap-4">
                             <span
-                                class="rounded-full border border-rose-500/40 bg-rose-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-rose-100"
+                                class="badge badge--danger"
                             >
                                 DELETE
                             </span>
@@ -672,7 +672,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                     >
                         <div class="flex flex-wrap items-center gap-4">
                             <span
-                                class="rounded-full border border-rose-500/40 bg-rose-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-rose-100"
+                                class="badge badge--danger"
                             >
                                 DELETE
                             </span>
@@ -770,7 +770,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                     >
                         <div class="flex flex-wrap items-center gap-4">
                             <span
-                                class="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-emerald-100"
+                                class="badge badge--primary"
                             >
                                 GET
                             </span>
@@ -821,7 +821,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                     >
                         <div class="flex flex-wrap items-center gap-4">
                             <span
-                                class="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-emerald-100"
+                                class="badge badge--primary"
                             >
                                 GET
                             </span>
@@ -871,7 +871,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                     >
                         <div class="flex flex-wrap items-center gap-4">
                             <span
-                                class="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-emerald-100"
+                                class="badge badge--primary"
                             >
                                 GET
                             </span>
@@ -931,7 +931,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                     >
                         <div class="flex flex-wrap items-center gap-4">
                             <span
-                                class="rounded-full border border-rose-500/40 bg-rose-500/10 px-3 py-1 text-xs uppercase tracking-[0.2em] text-rose-100"
+                                class="badge badge--danger"
                             >
                                 DELETE
                             </span>

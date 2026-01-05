@@ -33,7 +33,7 @@ const submit = () => {
                             required
                             autocomplete="email"
                         >
-                        <p v-if="form.errors.email" class="mt-2 text-xs text-rose-300">
+                        <p v-if="form.errors.email" class="form-error mt-2 text-xs">
                             {{ form.errors.email }}
                         </p>
                     </div>
@@ -59,7 +59,7 @@ const submit = () => {
                     </div>
                     <button
                         type="submit"
-                        class="w-full rounded-full border border-[var(--color-border-strong)] bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-[var(--color-text)] transition hover:border-[var(--color-border-strong)] hover:bg-white/20"
+                        class="btn btn--primary w-full px-4 py-2 text-xs uppercase tracking-[0.3em]"
                         :disabled="form.processing"
                     >
                         Log in

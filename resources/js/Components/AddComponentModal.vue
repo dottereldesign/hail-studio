@@ -217,7 +217,7 @@ const trapFocus = (event) => {
                             placeholder="e.g. Pricing Sections 3"
                             required
                         >
-                        <p v-if="form.errors.name" class="mt-2 text-xs text-rose-300">
+                        <p v-if="form.errors.name" class="form-error mt-2 text-xs">
                             {{ form.errors.name }}
                         </p>
                     </div>
@@ -237,7 +237,7 @@ const trapFocus = (event) => {
                                 {{ category.name }}
                             </option>
                         </select>
-                        <p v-if="form.errors.component_category_id" class="mt-2 text-xs text-rose-300">
+                        <p v-if="form.errors.component_category_id" class="form-error mt-2 text-xs">
                             {{ form.errors.component_category_id }}
                         </p>
                     </div>
@@ -275,7 +275,7 @@ const trapFocus = (event) => {
                                 <p class="text-xs text-[var(--color-muted-soft)]">or click to upload (PNG, JPG, WEBP)</p>
                             </div>
                         </div>
-                        <p v-if="form.errors.screenshot" class="mt-2 text-xs text-rose-300">
+                        <p v-if="form.errors.screenshot" class="form-error mt-2 text-xs">
                             {{ form.errors.screenshot }}
                         </p>
                     </div>
@@ -298,7 +298,7 @@ const trapFocus = (event) => {
                             required
                             @input="payloadError = ''"
                         />
-                        <p v-if="payloadErrorMessage" class="mt-2 text-xs text-rose-300">
+                        <p v-if="payloadErrorMessage" class="form-error mt-2 text-xs">
                             {{ payloadErrorMessage }}
                         </p>
                     </div>
@@ -313,7 +313,7 @@ const trapFocus = (event) => {
                         </button>
                         <button
                             type="submit"
-                            class="rounded-full border border-[var(--color-border-strong)] bg-white/10 px-5 py-2 text-xs uppercase tracking-[0.3em] text-[var(--color-text)] transition hover:border-[var(--color-border-strong)] hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-60"
+                            class="btn btn--primary px-5 py-2 text-xs uppercase tracking-[0.3em] disabled:cursor-not-allowed disabled:opacity-60"
                             :disabled="submitDisabled"
                         >
                             Save

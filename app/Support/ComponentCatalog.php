@@ -55,32 +55,4 @@ class ComponentCatalog
             ];
         }, $names);
     }
-
-    /**
-     * @return array<int, array{name: string, slug: string, image_url: string, payload: array<string, mixed>}>
-     */
-    public static function itemsForCategory(string $categoryName, string $categorySlug): array
-    {
-        $items = [];
-
-        for ($index = 1; $index <= 2; $index++) {
-            $items[] = [
-                'name' => sprintf('%s %d', $categoryName, $index),
-                'slug' => sprintf('%s-%d', $categorySlug, $index),
-                'image_url' => '/storage/component-previews/placeholder.svg',
-                'payload' => [
-                    'id' => sprintf('%s-%d', $categorySlug, $index),
-                    'name' => sprintf('%s %d', $categoryName, $index),
-                    'category' => $categoryName,
-                    'layout' => [
-                        'variant' => 'default',
-                        'padding' => 'md',
-                        'theme' => 'agency',
-                    ],
-                ],
-            ];
-        }
-
-        return $items;
-    }
 }

@@ -42,11 +42,9 @@ defineEmits(["toggle"]);
                 </Link>
                 <button
                     type="button"
-                    class="inline-flex cursor-pointer items-center gap-3 rounded-full border px-4 py-2 text-sm uppercase tracking-[0.25em] transition"
+                    class="btn px-4 py-2 text-sm uppercase tracking-[0.25em]"
                     :class="
-                        isOpen
-                            ? 'border-rose-500/40 bg-rose-500/15 text-rose-100 hover:border-rose-400 hover:bg-rose-500/25 hover:text-white'
-                            : 'border-emerald-500/40 bg-emerald-500/15 text-emerald-100 hover:border-emerald-400 hover:bg-emerald-500/25 hover:text-white'
+                        isOpen ? 'btn--secondary' : 'btn--ghost'
                     "
                     @click="$emit('toggle')"
                 >
