@@ -21,7 +21,7 @@ class ComponentsController extends Controller
 
         $categories = ComponentCategory::query()
             ->where('organization_id', $organizationId)
-            ->orderBy('position')
+            ->orderBy('name')
             ->get(['id', 'name', 'slug']);
 
         if ($categories->isEmpty()) {

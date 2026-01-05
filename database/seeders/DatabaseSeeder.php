@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         $organization = Organization::query()->firstOrCreate(
             ['slug' => 'hail-studio'],
-            ['name' => 'Hail Studio']
+            ['name' => 'hail Studio']
         );
 
         $user = User::query()->firstOrCreate(

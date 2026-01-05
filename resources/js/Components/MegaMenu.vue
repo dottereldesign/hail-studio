@@ -22,13 +22,6 @@ defineEmits(["close", "toggle-theme"]);
             class="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-surface)] px-6"
             @click.self="$emit('close')"
         >
-            <button
-                type="button"
-                class="absolute right-6 top-6 rounded-full border border-[var(--color-border)] px-4 py-2 text-xs uppercase tracking-[0.3em] text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
-                @click="$emit('close')"
-            >
-                Close
-            </button>
             <div class="w-full max-w-2xl">
                 <div class="flex items-center justify-between">
                     <p
@@ -61,6 +54,16 @@ defineEmits(["close", "toggle-theme"]);
                         @click="$emit('close')"
                     >
                         Components
+                        <i
+                            class="fa-solid fa-arrow-right text-[var(--color-muted)]"
+                        ></i>
+                    </Link>
+                    <Link
+                        href="/api"
+                        class="flex items-center justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-6 py-5 text-2xl font-semibold text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
+                        @click="$emit('close')"
+                    >
+                        API
                         <i
                             class="fa-solid fa-arrow-right text-[var(--color-muted)]"
                         ></i>

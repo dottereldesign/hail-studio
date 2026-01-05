@@ -1,136 +1,248 @@
 # Hail Studio
 
-Hail Studio is a web agency platform: an internal studio OS where teams curate reusable assets (like UI components) and standardize workflows (projects, checklists, templates, docs, client workspaces, and more).
+Hail Studio is a Laravel + Inertia (Vue 3) application. In this repo's current state, the implemented "module" is a **Components catalog**:
 
-The first module is **Components**: browse curated UI sections by category and copy the associated JSON payload to clipboard.
+- Users authenticate via a simple **email + password** login.
+- Each user belongs to an **Organization** via a **Membership** (with a role).
+- Authenticated users can browse **Component Categories** and view **Components** in that category.
+- A Component has:
+  - `name`, `slug`, `position`
+  - a preview **screenshot** (stored on the `public` disk)
+  - a JSON **payload** (stored in Postgres as `json`, cast to an array in Laravel)
+- Users can **copy the JSON payload to clipboard** from the UI.
+- Users with the right roles can **create components** (upload screenshot + paste JSON payload).
 
-## Tech Stack
+> Notes:
+> - Categories are seeded from `App\Support\ComponentCatalog`.
+> - Multi-tenancy is implemented at the data layer (`organization_id` on categories/components). There is no organization switching UI in this repo; the "current organization" is derived from the user's latest membership.
 
-- Laravel + PHP
-- Vue 3 + Inertia.js
-- Vite
-- Tailwind CSS
-- PostgreSQL
-- Eloquent ORM + Laravel migrations
-- Authentication: session-based
-- Authorization: Policies/Gates + RBAC roles (organization membership)
+---
 
-## App Structure
+## Tech stack
 
-- Public landing:
-  - `/` shows centered "Hail Studio"
-  - Top navbar: "Hail Studio" (left) + hamburger (right)
-  - Hamburger opens a full-screen mega menu (currently: link to Components)
-- Authenticated app:
-  - `/components` shows the component browser with left sidebar categories and a main panel of tiles
-  - `/components/<category>` deep-links to a category and keeps selection on refresh
+- **Laravel 12** (PHP **^8.2**)
+- **Inertia.js** (Laravel adapter) + **Vue 3**
+- **Vite 7** + `laravel-vite-plugin`
+- **Tailwind CSS v4**
+- **PostgreSQL** (`DB_CONNECTION=pgsql`)
+- Database-backed **sessions**, **cache**, and **queues** (via standard Laravel tables)
 
-## Design System Notes
+---
 
-- Primary content containers should use `max-width: 1440px` via the `layout__container` utility class.
-- Header inner container uses the BEM class `site-header__inner` for consistent targeting.
-- Components page content wrapper uses the BEM class `components-page__content`.
+## Requirements
 
-## Components Module (MVP)
-
-### UX
-
-- Sidebar lists categories (Navbars, Footers, Heroes, Pricing, 404 Pages, etc.)
-- Main panel displays component tiles:
-  - Screenshot image
-  - Name (e.g. "404 Pages 1", "Signup Sections 2")
-  - Copy button
-- Clicking Copy:
-  - Copies JSON payload to clipboard
-  - Shows toast: "Copied JSON to clipboard."
-
-### Data Storage
-
-Component items are stored in PostgreSQL:
-
-- `payload` stored as JSON (JSONB recommended)
-- `image_url` stored as a path or object storage URL
-- Categories are stored in a table to control ordering and labels
-
-Default catalog data is defined in `app/Support/ComponentCatalog.php` and seeded into the database.
-
-## Multi-tenant Foundation
-
-Even if Hail is the only tenant initially, the data model supports future client workspaces:
-
-- `organizations`
-- `users`
-- `memberships` (user_id, organization_id, role)
-- `roles/permissions` (RBAC)
-
-## Authorization (RBAC)
-
-Roles are assigned per organization membership:
-
-- OWNER: full control
-- ADMIN: manage users + content
-- EDITOR: create/update content
-- VIEWER: read-only
-
-Authorization is enforced via:
-
-- Laravel Policies/Gates (resource-level checks)
-- Role helpers on memberships (e.g. editor/admin only for content mutation)
-
-## Local Development
-
-### Requirements
-
-- PHP 8.2+
+- PHP **8.2+**
 - Composer
-- Node.js + pnpm/npm
-- PostgreSQL
+- Node.js + npm (versions compatible with Vite 7)
+- PostgreSQL 13+ (any recent Postgres should work)
 
-### Setup
+---
 
-1. Install PHP dependencies:
-   - `composer install`
-2. Install JS dependencies:
-   - `pnpm install` (or `npm install`)
-3. Configure environment:
-   - copy `.env.example` to `.env`
-   - set `DB_*` values for Postgres
-4. Generate app key:
-   - `php artisan key:generate`
-5. Run migrations + seeders:
-   - `php artisan migrate --seed`
-6. Create the storage symlink for previews:
-   - `php artisan storage:link`
-7. Start dev servers:
-   - `php artisan serve`
-   - `pnpm dev`
+## Quickstart (local development)
 
-### Dev Login
+### 1) Install dependencies
+
+```bash
+composer install
+npm install
+```
+
+### 2) Create your environment file
+
+```bash
+cp .env.example .env
+```
+
+Update these values in `.env` as needed:
+
+- `APP_URL` (default `http://localhost:8000`)
+- `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`
+
+Create the database in Postgres (example):
+
+```sql
+CREATE DATABASE hail_studio;
+```
+
+### 3) Generate app key
+
+```bash
+php artisan key:generate
+```
+
+### 4) Run migrations + seed
+
+This will create:
+
+- the standard Laravel tables (users, sessions, cache, jobs, etc.)
+- organizations/memberships tables
+- component_categories/components tables
+- a default admin user + org + seeded component categories
+
+```bash
+php artisan migrate --seed
+```
+
+### 5) Create the storage symlink (required for component screenshots)
+
+Components store screenshots on the public disk (e.g. `storage/app/public/...`) and serve them via `/storage/...`.
+
+```bash
+php artisan storage:link
+```
+
+### 6) Run the app (two terminals)
+
+Terminal A (Laravel):
+
+```bash
+php artisan serve
+```
+
+Terminal B (Vite):
+
+```bash
+npm run dev
+```
+
+Then open:
+
+- Home: `http://localhost:8000/`
+- Login: `http://localhost:8000/login`
+- Components: `http://localhost:8000/components`
+
+---
+
+## Default login (after seeding)
+
+The database seeder creates an initial admin user:
 
 - Email: `admin@hail.studio`
 - Password: `password`
 
-## Adding a New Component Item
+Seeder location: `database/seeders/DatabaseSeeder.php`.
 
-1. Use the Components page "Add Component" button to upload a screenshot and JSON payload.
-2. (Optional) Update the catalog definitions in `app/Support/ComponentCatalog.php`.
-3. Re-run the seeder to sync database records:
-   - `php artisan db:seed --class=ComponentCatalogSeeder`
+---
 
-## Suggested Directory Layout
+## Roles & permissions
 
-- `routes/web.php` (web routes)
-- `app/Models/*` (Eloquent models)
-- `database/migrations/*`
-- `resources/js/`
-  - `Pages/Components/Index.vue` (Inertia page)
-  - `Components/*` (Vue components: Sidebar, Tile, MegaMenu, Navbar)
-  - `lib/*` (registry helpers, clipboard utilities)
+Membership roles are defined in `App\Models\Membership`:
 
-## Roadmap
+- OWNER
+- ADMIN
+- EDITOR
+- VIEWER
 
-- Admin UI for component CRUD (add/edit/delete/publish)
-- Search and tagging across all categories
-- Versioning for payloads + audit log for edits
-- Additional modules: projects, SOPs, templates, checklists, assets
-- Client workspaces + scoped permissions
+Creating components (POST `/components`) is authorized by `App\Http\Requests\StoreComponentRequest`:
+
+- Allowed: OWNER, ADMIN, EDITOR
+- Not allowed: VIEWER
+
+---
+
+## Key routes
+
+Defined in `routes/web.php`:
+
+- `GET /` -> Home (Inertia page)
+- `GET /login` / `POST /login` -> session auth
+- `POST /logout`
+- `GET /components/{category?}` -> browse components by category slug (optional)
+- `POST /components` -> create a component (role-gated)
+
+---
+
+## Data model (tables)
+
+Domain tables created by migrations:
+
+`organizations`
+
+- id, name, slug (unique)
+
+`memberships`
+
+- user_id, organization_id, role
+- unique (user_id, organization_id)
+
+`component_categories`
+
+- organization_id, name, slug, position
+- unique (organization_id, slug)
+
+`components`
+
+- organization_id, component_category_id
+- name, slug, image_url, payload (json), position
+- unique (organization_id, slug)
+- unique (organization_id, component_category_id, position) (added in `database/migrations/2026_01_04_213153_add_component_position_unique_index.php`)
+
+Standard Laravel tables are also present (users, sessions, cache, jobs, etc.).
+
+---
+
+## Creating components (what the backend expects)
+
+The create endpoint validates (`App\Http\Requests\StoreComponentRequest`) the following fields:
+
+- name (string, max 120)
+- component_category_id (must exist for the user's organization)
+- payload (valid JSON)
+- screenshot (image: jpg/jpeg/png/webp, max 4096 KB)
+
+Screenshots are stored under:
+
+`storage/app/public/component-previews/{organizationId}/...`
+
+and served via:
+
+`/storage/component-previews/{organizationId}/...`
+
+---
+
+## Scripts
+
+### npm
+
+From `package.json`:
+
+- `npm run dev` -> start Vite dev server
+- `npm run build` -> build production assets
+
+### composer
+
+From `composer.json`:
+
+- `composer run setup` -> install deps, create `.env` if missing, generate key, migrate, build assets
+- `composer run test` -> run Laravel tests
+- `composer run dev` -> defined, but in this repo snapshot the command string appears truncated; if it fails, use the "two terminals" approach above (`php artisan serve` + `npm run dev`).
+
+---
+
+## Testing & code style
+
+Run tests:
+
+```bash
+php artisan test
+```
+
+Format PHP (Laravel Pint is installed):
+
+```bash
+./vendor/bin/pint
+```
+
+---
+
+## Project structure (high-level)
+
+- `app/Http/Controllers/*` -- Auth + Components controllers
+- `app/Http/Requests/StoreComponentRequest.php` -- create validation + authorization
+- `app/Models/*` -- Organization, Membership, ComponentCategory, Component, User
+- `app/Support/ComponentCatalog.php` -- seeded category definitions
+- `database/migrations/*` -- schema
+- `database/seeders/*` -- default org/user + seeded categories
+- `resources/js/Pages/*` -- Inertia pages (Home, Auth/Login, Components/Index)
+- `resources/js/Components/*` -- UI components (tiles, sidebar, add modal, toast)
+- `resources/views/app.blade.php` -- Inertia root view (+ Font Awesome CDN)
