@@ -17,10 +17,10 @@ const isActive = (href) => {
 };
 
 const linkClass = (href) => [
-    'rounded-xl border border-[var(--color-border)] px-3 py-2 text-sm transition',
+    'flex items-center justify-between rounded-xl px-3 py-2 text-sm transition',
     isActive(href)
-        ? 'border-[var(--color-border-strong)] bg-[var(--color-surface)] text-[var(--color-text)]'
-        : 'text-[var(--color-muted)] hover:border-[var(--color-border-strong)] hover:text-[var(--color-text)]',
+        ? 'bg-[var(--color-surface-strong)] text-[var(--color-text)]'
+        : 'text-[var(--color-muted)] hover:bg-[var(--color-surface)] hover:text-[var(--color-text)]',
 ];
 </script>
 
@@ -32,7 +32,7 @@ const linkClass = (href) => [
                     <p class="text-xs uppercase tracking-[0.3em] text-[var(--color-muted)]">
                         Dashboard
                     </p>
-                    <nav class="mt-4 space-y-2">
+                    <nav class="mt-4 space-y-1">
                         <Link href="/dashboard" :class="linkClass('/dashboard')">
                             Profile
                         </Link>

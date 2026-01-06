@@ -37,6 +37,7 @@ const componentItems = computed(() => props.components?.data ?? []);
 const totalCount = computed(() => props.components?.total ?? componentItems.value.length);
 const paginationLinks = computed(() => props.components?.links ?? []);
 const currentPage = computed(() => props.components?.current_page ?? 1);
+const deleteMode = ref(false);
 
 const closeSidebar = () => {
     sidebarOpen.value = false;
@@ -70,7 +71,18 @@ const closeSidebar = () => {
                             {{ totalCount }} items
                         </p>
                     </div>
-                    <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3">
+                        <button
+                            v-if="canCreate"
+                            type="button"
+                            class="btn btn--danger px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.2em]"
+                            @click="deleteMode = !deleteMode"
+                        >
+                            <span class="flex items-center gap-2">
+                                <i class="fa-solid fa-minus text-[10px]"></i>
+                                Delete
+                            </span>
+                        </button>
                         <button
                             v-if="canCreate"
                             type="button"
@@ -99,6 +111,7 @@ const closeSidebar = () => {
                         :key="component.id"
                         :component="component"
                         :page="currentPage"
+                        :show-delete="deleteMode"
                     />
                 </div>
                 <div v-else class="rounded-2xl border border-dashed border-[var(--color-border)] p-10 text-center">

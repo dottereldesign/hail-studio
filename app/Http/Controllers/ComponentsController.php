@@ -40,17 +40,21 @@ class ComponentsController extends Controller
             ]);
         }
 
-        $selected = $category
-            ? $categories->firstWhere('slug', $category)
-            : $categories->first();
+        $showAll = $category === null || $category === 'all';
+        $selected = $showAll ? null : $categories->firstWhere('slug', $category);
 
-        if (! $selected) {
-            return redirect()->route('components.index', ['category' => $categories->first()->slug]);
+        if (! $showAll && ! $selected) {
+            return redirect()->route('components.index');
         }
 
-        $components = Component::query()
-            ->where('organization_id', $organizationId)
-            ->where('component_category_id', $selected->id)
+        $componentsQuery = Component::query()
+            ->where('organization_id', $organizationId);
+
+        if ($selected) {
+            $componentsQuery->where('component_category_id', $selected->id);
+        }
+
+        $components = $componentsQuery
             ->orderBy('position')
             ->paginate(30, ['id', 'name', 'slug', 'image_url', 'position'])
             ->withQueryString();

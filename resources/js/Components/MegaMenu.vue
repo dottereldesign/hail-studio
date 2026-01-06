@@ -10,18 +10,33 @@ const page = usePage();
 const isAuthenticated = computed(() => !!page.props.auth?.user);
 
 const externalLinks = [
-    { name: 'WPStaq', href: 'https://app.wpstaq.com/', image: wpstaqLogo },
-    { name: 'Cloudways', href: 'https://unified.cloudways.com/login', image: cloudwaysLogo },
-    { name: 'Cloudflare', href: 'https://dash.cloudflare.com/', image: cloudflareLogo },
-    { name: 'Porkbun', href: 'https://porkbun.com/account/login', image: porkbunLogo },
-    { name: 'ManageWP', href: 'https://orion.managewp.com/login' },
+    { name: "WPStaq", href: "https://app.wpstaq.com/", image: wpstaqLogo },
     {
-        name: 'Feedback',
-        href: 'https://docs.google.com/document/d/1VPjDJNh6u5pirtw1VBP0uAg6jsm6XPvPJ5Ubq5UKwGM/edit?tab=t.tpqof2weewls#heading=h.kb5eimnhstpv',
+        name: "Cloudways",
+        href: "https://unified.cloudways.com/login",
+        image: cloudwaysLogo,
     },
-    { name: 'Hail', href: 'https://hail.to/app/' },
-    { name: 'HelpScout', href: 'https://secure.helpscout.net/inboxes/bcf07e1aec902f73/views' },
-    { name: 'Nova', href: 'https://hail.to/NimD4R3pu5/hail-nova/login' },
+    {
+        name: "Cloudflare",
+        href: "https://dash.cloudflare.com/",
+        image: cloudflareLogo,
+    },
+    {
+        name: "Porkbun",
+        href: "https://porkbun.com/account/login",
+        image: porkbunLogo,
+    },
+    { name: "ManageWP", href: "https://orion.managewp.com/login" },
+    {
+        name: "Feedback",
+        href: "https://docs.google.com/document/d/1VPjDJNh6u5pirtw1VBP0uAg6jsm6XPvPJ5Ubq5UKwGM/edit?tab=t.tpqof2weewls#heading=h.kb5eimnhstpv",
+    },
+    { name: "Hail", href: "https://hail.to/app/" },
+    {
+        name: "HelpScout",
+        href: "https://secure.helpscout.net/inboxes/bcf07e1aec902f73/views",
+    },
+    { name: "Nova", href: "https://hail.to/NimD4R3pu5/hail-nova/login" },
 ];
 
 defineProps({
@@ -82,9 +97,14 @@ defineEmits(["close", "toggle-theme"]);
                 <div class="mt-6 grid gap-4 md:grid-cols-2">
                     <Link
                         href="/components"
-                        class="flex items-center justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-6 py-5 text-2xl font-semibold text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
+                        class="relative flex items-center justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-6 py- text-2xl font-semibold text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
                         @click="$emit('close')"
                     >
+                        <span
+                            class="absolute left-[calc(var(--spacing)*-5-2px)] top-[calc(var(--spacing)*1+2px)] rotate-[-45deg] rounded-full bg-[#ffe3f9] px-2 py-1 p text-[8px] font-semibold uppercase tracking-[0.25em] text-[#7a2f68]"
+                        >
+                            Elementor
+                        </span>
                         Components
                     </Link>
                     <Link
@@ -137,7 +157,9 @@ defineEmits(["close", "toggle-theme"]);
                 >
                     External Links
                 </p>
-                <div class="mt-4 grid grid-cols-4 gap-4 md:grid-cols-6 xl:grid-cols-9">
+                <div
+                    class="mt-4 grid grid-cols-4 gap-4 md:grid-cols-6 xl:grid-cols-9"
+                >
                     <a
                         v-for="(link, index) in externalLinks"
                         :key="`${link.name}-${index}`"
@@ -156,7 +178,7 @@ defineEmits(["close", "toggle-theme"]);
                                 :alt="`${link.name} logo`"
                                 class="h-full w-full rounded-2xl object-cover"
                                 loading="lazy"
-                            >
+                            />
                         </div>
                     </a>
                 </div>

@@ -18,10 +18,10 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                     >
                         API Docs
                     </p>
-                    <nav class="mt-4 space-y-2 text-sm">
+                    <nav class="mt-4 space-y-1 text-sm">
                         <a
                             href="#users"
-                            class="flex items-center justify-between rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-2 text-[var(--color-text)]"
+                            class="flex items-center justify-between rounded-xl bg-[var(--color-surface-strong)] px-3 py-2 text-[var(--color-text)] transition"
                         >
                             Users
                             <span

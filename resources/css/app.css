@@ -49,12 +49,12 @@
 
     :root[data-theme="dark"] {
         color-scheme: dark;
-        --color-bg: #0b1120;
-        --color-bg-soft: rgba(2, 6, 23, 0.85);
-        --color-surface: #0f172a;
-        --color-surface-muted: rgba(15, 23, 42, 0.6);
+        --color-bg: #0a0a0a;
+        --color-bg-soft: #0e0e0e;
+        --color-surface: #0a0a0a;
+        --color-surface-muted: #0e0e0e;
         --color-surface-strong: #111827;
-        --color-card: rgba(15, 23, 42, 0.4);
+        --color-card: #0e0e0e;
         --color-border: #1f2937;
         --color-border-strong: #334155;
         --color-text: #f8fafc;

@@ -12,6 +12,10 @@ const props = defineProps({
         type: Number,
         default: null,
     },
+    showDelete: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const page = usePage();
@@ -20,6 +24,15 @@ const canManage = computed(() => allowedRoles.includes(page.props.auth?.user?.ro
 const payloadCache = ref(null);
 const isCopying = ref(false);
 const isDeleting = ref(false);
+const isPreviewOpen = ref(false);
+
+const openPreview = () => {
+    isPreviewOpen.value = true;
+};
+
+const closePreview = () => {
+    isPreviewOpen.value = false;
+};
 
 const fetchPayload = async () => {
     if (payloadCache.value) {
@@ -89,12 +102,15 @@ const deleteComponent = () => {
 </script>
 
 <template>
-    <div class="rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] p-4 shadow-sm">
-        <div class="aspect-[4/3] overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]">
+    <div class="relative rounded-2xl border border-[var(--color-border)] bg-[var(--color-card)] p-4 shadow-sm">
+        <div
+            class="aspect-[4/3] overflow-hidden rounded-xl border border-[var(--color-border)] bg-[var(--color-surface)]"
+        >
             <img
                 :src="component.image_url"
                 :alt="component.name"
-                class="h-full w-full object-cover"
+                class="h-full w-full object-cover cursor-zoom-in"
+                @click="openPreview"
             >
         </div>
         <div class="mt-4 flex items-center justify-between gap-3">
@@ -113,19 +129,36 @@ const deleteComponent = () => {
                         Copy
                     </span>
                 </button>
-                <button
-                    v-if="canManage"
-                    type="button"
-                    class="btn btn--danger px-3 py-1 text-xs uppercase tracking-[0.2em] disabled:cursor-not-allowed disabled:opacity-60"
-                    :disabled="isDeleting"
-                    @click="deleteComponent"
-                >
-                    <span class="flex items-center gap-2">
-                        <i class="fa-regular fa-trash-can text-[11px]"></i>
-                        Delete
-                    </span>
-                </button>
             </div>
+        </div>
+        <button
+            v-if="showDelete && canManage"
+            type="button"
+            class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full border border-[var(--danger-border)] bg-[var(--danger-bg)] text-[var(--danger-fg)] transition hover:scale-[1.03] disabled:cursor-not-allowed disabled:opacity-60"
+            :disabled="isDeleting"
+            @click="deleteComponent"
+        >
+            <i class="fa-solid fa-minus text-[12px]"></i>
+        </button>
+    </div>
+    <div
+        v-if="isPreviewOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-6"
+        @click.self="closePreview"
+    >
+        <div class="relative w-full max-w-4xl">
+            <button
+                type="button"
+                class="absolute right-4 top-4 rounded-full border border-white/30 bg-black/60 px-3 py-2 text-xs uppercase tracking-[0.25em] text-white"
+                @click="closePreview"
+            >
+                Close
+            </button>
+            <img
+                :src="component.image_url"
+                :alt="component.name"
+                class="max-h-[80vh] w-full rounded-2xl border border-white/20 object-contain bg-black"
+            >
         </div>
     </div>
 </template>
