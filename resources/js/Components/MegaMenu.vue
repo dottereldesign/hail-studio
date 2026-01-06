@@ -3,8 +3,14 @@ import { Link, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
 import cloudflareLogo from "../../images/cloudflare.png";
 import cloudwaysLogo from "../../images/cloudways.png";
+import feedbackLogo from "../../images/feedback.png";
+import hailLinkLogo from "../../images/haillink.png";
+import helpScoutLogo from "../../images/helpscout.png";
+import manageWpLogo from "../../images/managewp.png";
+import novaLogo from "../../images/nova.png";
 import porkbunLogo from "../../images/porkbun.png";
 import wpstaqLogo from "../../images/wpstaq.png";
+import schoolSearchBg from "../../images/school_search-bg_img.png";
 
 const page = usePage();
 const isAuthenticated = computed(() => !!page.props.auth?.user);
@@ -26,17 +32,27 @@ const externalLinks = [
         href: "https://porkbun.com/account/login",
         image: porkbunLogo,
     },
-    { name: "ManageWP", href: "https://orion.managewp.com/login" },
+    {
+        name: "ManageWP",
+        href: "https://orion.managewp.com/login",
+        image: manageWpLogo,
+    },
     {
         name: "Feedback",
         href: "https://docs.google.com/document/d/1VPjDJNh6u5pirtw1VBP0uAg6jsm6XPvPJ5Ubq5UKwGM/edit?tab=t.tpqof2weewls#heading=h.kb5eimnhstpv",
+        image: feedbackLogo,
     },
-    { name: "Hail", href: "https://hail.to/app/" },
+    { name: "Hail", href: "https://hail.to/app/", image: hailLinkLogo },
     {
         name: "HelpScout",
         href: "https://secure.helpscout.net/inboxes/bcf07e1aec902f73/views",
+        image: helpScoutLogo,
     },
-    { name: "Nova", href: "https://hail.to/NimD4R3pu5/hail-nova/login" },
+    {
+        name: "Nova",
+        href: "https://hail.to/NimD4R3pu5/hail-nova/login",
+        image: novaLogo,
+    },
 ];
 
 defineProps({
@@ -61,34 +77,37 @@ defineEmits(["close", "toggle-theme"]);
             @click.self="$emit('close')"
         >
             <div class="w-full max-w-2xl">
+                <div class="mt-6 grid grid-cols-2 items-center gap-4">
+                    <div class="flex items-center justify-between gap-4">
+                        <p
+                            class="text-xs uppercase tracking-[0.4em] text-[var(--color-muted)]"
+                        >
+                            Theme
+                        </p>
+                        <button
+                            type="button"
+                            class="btn btn--ghost w-24 px-3 py-1 text-xs uppercase tracking-[0.25em]"
+                            @click="$emit('toggle-theme')"
+                        >
+                            <i
+                                v-if="theme === 'dark'"
+                                class="fa-regular fa-sun"
+                            ></i>
+                            <i v-else class="fa-regular fa-moon"></i>
+                            <span>{{ theme === "dark" ? "Light" : "Dark" }}</span>
+                        </button>
+                    </div>
+                    <div></div>
+                </div>
                 <Link
                     v-if="isAuthenticated"
                     href="/dashboard"
-                    class="flex items-center justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-6 py-5 text-2xl font-semibold text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
+                    class="mt-6 flex items-center justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-6 py-5 text-2xl font-semibold text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
                     @click="$emit('close')"
                 >
                     Dashboard
+                    <i class="fa-solid fa-arrow-right text-[var(--color-muted)]"></i>
                 </Link>
-
-                <div class="mt-10 flex items-center justify-between">
-                    <p
-                        class="text-xs uppercase tracking-[0.4em] text-[var(--color-muted)]"
-                    >
-                        Theme
-                    </p>
-                    <button
-                        type="button"
-                        class="btn btn--ghost px-3 py-1 text-xs uppercase tracking-[0.25em]"
-                        @click="$emit('toggle-theme')"
-                    >
-                        <i
-                            v-if="theme === 'dark'"
-                            class="fa-regular fa-sun"
-                        ></i>
-                        <i v-else class="fa-regular fa-moon"></i>
-                        <span>{{ theme === "dark" ? "Light" : "Dark" }}</span>
-                    </button>
-                </div>
                 <p
                     class="mt-12 text-xs uppercase tracking-[0.4em] text-[var(--color-muted)]"
                 >
@@ -109,17 +128,25 @@ defineEmits(["close", "toggle-theme"]);
                     </Link>
                     <Link
                         href="/search-schools"
-                        class="flex items-center justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-6 py-5 text-2xl font-semibold text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
+                        class="relative flex items-center justify-between overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-6 py-5 text-2xl font-semibold text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
                         @click="$emit('close')"
                     >
                         Search Schools
+                        <img
+                            :src="schoolSearchBg"
+                            alt=""
+                            class="pointer-events-none absolute right-8 top-1/2 h-full w-auto -translate-y-1/2 translate-x-1/2 scale-140 object-cover opacity-60"
+                            aria-hidden="true"
+                        />
                     </Link>
                     <Link
                         href="/api"
                         class="flex items-center justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-6 py-5 text-2xl font-semibold text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
                         @click="$emit('close')"
                     >
-                        API
+                        <span>
+                            <span class="text-[#72AF2E]">hail</span> API
+                        </span>
                     </Link>
                 </div>
 

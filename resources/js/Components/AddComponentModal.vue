@@ -183,7 +183,7 @@ const trapFocus = (event) => {
 
 <template>
     <transition name="fade">
-        <div v-if="open" class="fixed inset-0 z-50 bg-[var(--color-bg-soft)] px-6 py-10" @click.self="$emit('close')">
+        <div v-if="open" class="fixed inset-0 z-50 bg-[var(--color-bg-soft)] px-6 pb-10 pt-[calc(4rem+1.5rem)]" @click.self="$emit('close')">
             <div
                 ref="modalRef"
                 class="mx-auto w-full max-w-2xl rounded-3xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] p-8 text-[var(--color-text)] shadow-xl"
