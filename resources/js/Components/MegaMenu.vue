@@ -94,7 +94,9 @@ defineEmits(["close", "toggle-theme"]);
                                 class="fa-regular fa-sun"
                             ></i>
                             <i v-else class="fa-regular fa-moon"></i>
-                            <span>{{ theme === "dark" ? "Light" : "Dark" }}</span>
+                            <span>{{
+                                theme === "dark" ? "Light" : "Dark"
+                            }}</span>
                         </button>
                     </div>
                     <div></div>
@@ -106,7 +108,9 @@ defineEmits(["close", "toggle-theme"]);
                     @click="$emit('close')"
                 >
                     Dashboard
-                    <i class="fa-solid fa-arrow-right text-[var(--color-muted)]"></i>
+                    <i
+                        class="fa-solid fa-arrow-right text-[var(--color-muted)]"
+                    ></i>
                 </Link>
                 <p
                     class="mt-12 text-xs uppercase tracking-[0.4em] text-[var(--color-muted)]"
@@ -127,6 +131,18 @@ defineEmits(["close", "toggle-theme"]);
                         Components
                     </Link>
                     <Link
+                        href="#"
+                        class="relative flex items-center justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-6 py-5 text-2xl font-semibold text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
+                        @click.prevent="$emit('close')"
+                    >
+                        <span
+                            class="absolute left-[calc(var(--spacing)*-2-6px)] top-[calc(var(--spacing)*0.25+4px)] rotate-[-45deg] rounded-full bg-[#fff4bf] px-4 py-1 text-[8px] font-semibold uppercase tracking-[0.25em] text-[#8a6d00]"
+                        >
+                            Divi 4
+                        </span>
+                        Library
+                    </Link>
+                    <Link
                         href="/search-schools"
                         class="relative flex items-center justify-between overflow-hidden rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-6 py-5 text-2xl font-semibold text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
                         @click="$emit('close')"
@@ -135,7 +151,7 @@ defineEmits(["close", "toggle-theme"]);
                         <img
                             :src="schoolSearchBg"
                             alt=""
-                            class="pointer-events-none absolute right-8 top-1/2 h-full w-auto -translate-y-1/2 translate-x-1/2 scale-140 object-cover opacity-60"
+                            class="pointer-events-none absolute right-8 top-1/2 h-full w-auto -translate-y-1/2 translate-x-1/2 scale-140 object-cover mix-blend-multiply opacity-70"
                             aria-hidden="true"
                         />
                     </Link>
@@ -146,6 +162,17 @@ defineEmits(["close", "toggle-theme"]);
                     >
                         <span>
                             <span class="text-[#72AF2E]">hail</span> API
+                        </span>
+                    </Link>
+                    <Link
+                        href="#"
+                        class="pointer-events-none flex flex-col items-start justify-center gap-1 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-6 py-5 text-2xl font-semibold text-[var(--color-text)] opacity-60"
+                    >
+                        <span>Design System</span>
+                        <span
+                            class="text-xs font-medium uppercase tracking-[0.25em] text-[var(--color-muted)]"
+                        >
+                            Coming soon
                         </span>
                     </Link>
                 </div>
