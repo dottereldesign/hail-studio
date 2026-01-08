@@ -10,6 +10,14 @@ defineProps({
         type: String,
         default: null,
     },
+    basePath: {
+        type: String,
+        default: '/components',
+    },
+    allLabel: {
+        type: String,
+        default: 'All Components',
+    },
 });
 
 defineEmits(['select']);
@@ -18,7 +26,7 @@ defineEmits(['select']);
 <template>
     <nav class="space-y-1">
         <Link
-            href="/components"
+            :href="basePath"
             class="flex items-center justify-between rounded-xl border border-[var(--color-border)] px-3 py-2 text-sm transition"
             :class="
                 !activeSlug
@@ -27,13 +35,13 @@ defineEmits(['select']);
             "
             @click="$emit('select')"
         >
-            <span>All Components</span>
+            <span>{{ allLabel }}</span>
             <span v-if="!activeSlug" class="text-[10px] uppercase tracking-[0.2em] text-[var(--color-muted)]">All</span>
         </Link>
         <Link
             v-for="category in categories"
             :key="category.id"
-            :href="`/components/${category.slug}`"
+            :href="`${basePath}/${category.slug}`"
             class="flex items-center justify-between rounded-xl px-3 py-2 text-sm transition"
             :class="
                 category.slug === activeSlug

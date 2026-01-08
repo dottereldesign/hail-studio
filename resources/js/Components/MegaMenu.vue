@@ -131,9 +131,9 @@ defineEmits(["close", "toggle-theme"]);
                         Components
                     </Link>
                     <Link
-                        href="#"
+                        href="/library"
                         class="relative flex items-center justify-between rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-muted)] px-6 py-5 text-2xl font-semibold text-[var(--color-text)] transition hover:border-[var(--color-border-strong)]"
-                        @click.prevent="$emit('close')"
+                        @click="$emit('close')"
                     >
                         <span
                             class="absolute left-[calc(var(--spacing)*-2-6px)] top-[calc(var(--spacing)*0.25+4px)] rotate-[-45deg] rounded-full bg-[#fff4bf] px-4 py-1 text-[8px] font-semibold uppercase tracking-[0.25em] text-[#8a6d00]"

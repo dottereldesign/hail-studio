@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreComponentRequest;
-use App\Models\Component;
-use App\Models\ComponentCategory;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreLayoutRequest;
+use App\Models\Layout;
+use App\Models\LayoutCategory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -16,13 +16,13 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class ComponentsController extends Controller
+class LibraryController extends Controller
 {
     public function index(Request $request, ?string $category = null): Response|RedirectResponse
     {
         $organizationId = $request->user()?->currentOrganizationId();
 
-        $categories = ComponentCategory::query()
+        $categories = LayoutCategory::query()
             ->where('organization_id', $organizationId)
             ->orderBy('name')
             ->get(['id', 'name', 'slug']);
@@ -33,10 +33,10 @@ class ComponentsController extends Controller
                 'query' => $request->query(),
             ]);
 
-            return Inertia::render('Components/Index', [
+            return Inertia::render('Library/Index', [
                 'categories' => [],
                 'category' => null,
-                'components' => $emptyPaginator,
+                'layouts' => $emptyPaginator,
             ]);
         }
 
@@ -44,49 +44,49 @@ class ComponentsController extends Controller
         $selected = $showAll ? null : $categories->firstWhere('slug', $category);
 
         if (! $showAll && ! $selected) {
-            return redirect()->route('components.index');
+            return redirect()->route('library.index');
         }
 
-        $componentsQuery = Component::query()
+        $layoutsQuery = Layout::query()
             ->where('organization_id', $organizationId);
 
         if ($selected) {
-            $componentsQuery->where('component_category_id', $selected->id);
+            $layoutsQuery->where('layout_category_id', $selected->id);
         }
 
-        $components = $componentsQuery
+        $layouts = $layoutsQuery
             ->orderBy('position')
             ->paginate(30, ['id', 'name', 'slug', 'image_url', 'position'])
             ->withQueryString();
 
-        return Inertia::render('Components/Index', [
+        return Inertia::render('Library/Index', [
             'categories' => $categories,
             'category' => $selected,
-            'components' => $components,
+            'layouts' => $layouts,
         ]);
     }
 
-    public function store(StoreComponentRequest $request): RedirectResponse
+    public function store(StoreLayoutRequest $request): RedirectResponse
     {
         $organizationId = $request->user()->currentOrganizationId();
 
         DB::transaction(function () use ($request, $organizationId): void {
-            $category = ComponentCategory::query()
+            $category = LayoutCategory::query()
                 ->where('organization_id', $organizationId)
-                ->where('id', $request->integer('component_category_id'))
+                ->where('id', $request->integer('layout_category_id'))
                 ->lockForUpdate()
                 ->firstOrFail();
 
             $baseSlug = Str::slug($request->input('name'));
             if ($baseSlug === '') {
-                $baseSlug = 'component';
+                $baseSlug = 'layout';
             }
 
             $slug = $this->generateUniqueSlug($organizationId, $baseSlug);
 
-            $position = (int) (Component::query()
+            $position = (int) (Layout::query()
                 ->where('organization_id', $organizationId)
-                ->where('component_category_id', $category->id)
+                ->where('layout_category_id', $category->id)
                 ->lockForUpdate()
                 ->orderByDesc('position')
                 ->value('position') ?? 0);
@@ -95,7 +95,7 @@ class ComponentsController extends Controller
             $screenshot = $request->file('screenshot');
             $extension = $screenshot->getClientOriginalExtension() ?: $screenshot->extension() ?: 'jpg';
             $filename = sprintf('%s-%s.%s', $slug, now()->format('YmdHis'), $extension);
-            $path = $screenshot->storeAs('component-previews/'.$organizationId, $filename, 'public');
+            $path = $screenshot->storeAs('layout-previews/'.$organizationId, $filename, 'public');
 
             try {
                 $payload = json_decode($request->input('payload'), true, 512, JSON_THROW_ON_ERROR);
@@ -111,9 +111,9 @@ class ComponentsController extends Controller
                 ]);
             }
 
-            Component::query()->create([
+            Layout::query()->create([
                 'organization_id' => $organizationId,
-                'component_category_id' => $category->id,
+                'layout_category_id' => $category->id,
                 'name' => $request->input('name'),
                 'slug' => $slug,
                 'image_url' => $path,
@@ -122,36 +122,36 @@ class ComponentsController extends Controller
             ]);
         });
 
-        $category = ComponentCategory::query()
+        $category = LayoutCategory::query()
             ->where('organization_id', $organizationId)
-            ->where('id', $request->integer('component_category_id'))
+            ->where('id', $request->integer('layout_category_id'))
             ->firstOrFail();
 
-        return redirect()->route('components.index', ['category' => $category->slug]);
+        return redirect()->route('library.index', ['category' => $category->slug]);
     }
 
-    public function payload(Request $request, Component $component)
+    public function payload(Request $request, Layout $layout)
     {
-        if ($component->organization_id !== $request->user()->currentOrganizationId()) {
+        if ($layout->organization_id !== $request->user()->currentOrganizationId()) {
             abort(404);
         }
 
         return response()->json([
-            'payload' => $component->payload,
+            'payload' => $layout->payload,
         ]);
     }
 
-    public function destroy(Request $request, Component $component): RedirectResponse
+    public function destroy(Request $request, Layout $layout): RedirectResponse
     {
-        Gate::authorize('components.manage');
+        Gate::authorize('library.manage');
 
-        if ($component->organization_id !== $request->user()->currentOrganizationId()) {
+        if ($layout->organization_id !== $request->user()->currentOrganizationId()) {
             abort(404);
         }
 
-        $component->load('category');
+        $layout->load('category');
 
-        $path = $component->getRawOriginal('image_url');
+        $path = $layout->getRawOriginal('image_url');
         if ($path) {
             if (filter_var($path, FILTER_VALIDATE_URL)) {
                 $path = parse_url($path, PHP_URL_PATH) ?: '';
@@ -168,10 +168,10 @@ class ComponentsController extends Controller
             }
         }
 
-        $component->delete();
+        $layout->delete();
 
-        return redirect()->route('components.index', [
-            'category' => $component->category?->slug,
+        return redirect()->route('library.index', [
+            'category' => $layout->category?->slug,
             'page' => $request->query('page'),
         ]);
     }
@@ -182,7 +182,7 @@ class ComponentsController extends Controller
         $attempt = 1;
         $maxAttempts = 20;
 
-        while (Component::query()
+        while (Layout::query()
             ->where('organization_id', $organizationId)
             ->where('slug', $slug)
             ->exists()) {

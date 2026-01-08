@@ -2,7 +2,7 @@
 
 namespace App\Support;
 
-class ComponentCatalog
+class LayoutCatalog
 {
     /**
      * @return array<int, array{name: string, slug: string}>

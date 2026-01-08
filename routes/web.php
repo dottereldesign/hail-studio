@@ -3,6 +3,7 @@
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ComponentsController;
+use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\ErrorController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DashboardUsersController;
@@ -45,4 +46,14 @@ Route::middleware('auth')->group(function (): void {
         ->name('components.destroy');
     Route::get('/components/{category?}', [ComponentsController::class, 'index'])
         ->name('components.index');
+    Route::post('/library', [LibraryController::class, 'store'])
+        ->name('library.store');
+    Route::get('/library/{layout}/payload', [LibraryController::class, 'payload'])
+        ->whereNumber('layout')
+        ->name('library.payload');
+    Route::delete('/library/{layout}', [LibraryController::class, 'destroy'])
+        ->whereNumber('layout')
+        ->name('library.destroy');
+    Route::get('/library/{category?}', [LibraryController::class, 'index'])
+        ->name('library.index');
 });

@@ -39,5 +39,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(ComponentCatalogSeeder::class);
+        $this->call(LayoutCatalogSeeder::class);
     }
 }

@@ -32,6 +32,14 @@ class AppServiceProvider extends ServiceProvider
             ]);
         });
 
+        Gate::define('library.manage', function (User $user): bool {
+            return $user->hasAnyRole([
+                Membership::ROLE_OWNER,
+                Membership::ROLE_ADMIN,
+                Membership::ROLE_EDITOR,
+            ]);
+        });
+
         Gate::define('dashboard.users.manage', function (User $user): bool {
             return $user->hasAnyRole([
                 Membership::ROLE_OWNER,
