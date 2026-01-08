@@ -28,16 +28,12 @@ const config = {
 
 let distanceTraveled = 0;
 let direction = 1;
-let reversePlayback = false;
-let videoDuration = 0;
 let rafId = 0;
 let lastTime = 0;
 let resizeObserver;
 let intersectionObserver;
 let reduceMotionQuery;
 let reduceMotionHandler;
-let videoEndedHandler;
-let videoMetadataHandler;
 let reducedMotion = false;
 let inView = true;
 
@@ -48,8 +44,9 @@ const buildRoute = (width, height) => {
 
     return [
         `M ${width * 1.06} ${height * 0.28}`,
-        `C ${width * 0.78} ${height * 0.05}, ${width * 0.55} ${height *
-            0.55}, ${width * 0.38} ${height * 0.5}`,
+        `C ${width * 0.78} ${height * 0.05}, ${width * 0.55} ${
+            height * 0.55
+        }, ${width * 0.38} ${height * 0.5}`,
         `S ${width * 0.12} ${height * 0.2}, ${width * -0.08} ${height * 0.32}`,
     ].join(" ");
 };
@@ -98,16 +95,13 @@ const updateBirdPosition = () => {
     if (!videoRef.value || !routeLength.value) return;
     const point = samplePoint(distanceTraveled);
     const lookaheadPoint = samplePoint(
-        Math.min(distanceTraveled + config.lookahead, routeLength.value),
+        Math.min(distanceTraveled + config.lookahead, routeLength.value)
     );
 
     if (!point || !lookaheadPoint) return;
 
     const angle =
-        (Math.atan2(
-            lookaheadPoint.y - point.y,
-            lookaheadPoint.x - point.x,
-        ) *
+        (Math.atan2(lookaheadPoint.y - point.y, lookaheadPoint.x - point.x) *
             180) /
         Math.PI;
 
@@ -130,23 +124,6 @@ const animate = (timestamp) => {
     const deltaSeconds = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
 
-    if (videoRef.value && videoDuration) {
-        if (reversePlayback) {
-            const nextTime = Math.max(
-                0,
-                videoRef.value.currentTime - deltaSeconds,
-            );
-            videoRef.value.currentTime = nextTime;
-            if (nextTime <= 0) {
-                reversePlayback = false;
-                const playPromise = videoRef.value.play();
-                if (playPromise && typeof playPromise.catch === "function") {
-                    playPromise.catch(() => {});
-                }
-            }
-        }
-    }
-
     if (routeLength.value) {
         advanceDistance(deltaSeconds);
         updateBirdPosition();
@@ -163,12 +140,6 @@ const animate = (timestamp) => {
 const start = () => {
     if (rafId || reducedMotion || !inView) return;
     lastTime = 0;
-    if (videoRef.value && !reversePlayback) {
-        const playPromise = videoRef.value.play();
-        if (playPromise && typeof playPromise.catch === "function") {
-            playPromise.catch(() => {});
-        }
-    }
     rafId = window.requestAnimationFrame(animate);
 };
 
@@ -177,9 +148,6 @@ const stop = () => {
     window.cancelAnimationFrame(rafId);
     rafId = 0;
     lastTime = 0;
-    if (videoRef.value) {
-        videoRef.value.pause();
-    }
 };
 
 onMounted(() => {
@@ -202,7 +170,7 @@ onMounted(() => {
                 stop();
             }
         },
-        { threshold: 0.2 },
+        { threshold: 0.2 }
     );
     if (stageRef.value) intersectionObserver.observe(stageRef.value);
 
@@ -217,20 +185,6 @@ onMounted(() => {
         }
     };
     reduceMotionQuery.addEventListener("change", reduceMotionHandler);
-
-    if (videoRef.value) {
-        videoMetadataHandler = () => {
-            videoDuration = videoRef.value.duration || 0;
-        };
-        videoEndedHandler = () => {
-            if (!videoRef.value) return;
-            reversePlayback = true;
-            videoRef.value.pause();
-            videoRef.value.currentTime = videoDuration;
-        };
-        videoRef.value.addEventListener("loadedmetadata", videoMetadataHandler);
-        videoRef.value.addEventListener("ended", videoEndedHandler);
-    }
 });
 
 onBeforeUnmount(() => {
@@ -239,17 +193,6 @@ onBeforeUnmount(() => {
     if (intersectionObserver) intersectionObserver.disconnect();
     if (reduceMotionQuery) {
         reduceMotionQuery.removeEventListener("change", reduceMotionHandler);
-    }
-    if (videoRef.value) {
-        if (videoMetadataHandler) {
-            videoRef.value.removeEventListener(
-                "loadedmetadata",
-                videoMetadataHandler,
-            );
-        }
-        if (videoEndedHandler) {
-            videoRef.value.removeEventListener("ended", videoEndedHandler);
-        }
     }
 });
 </script>
@@ -260,7 +203,9 @@ onBeforeUnmount(() => {
         <section
             ref="stageRef"
             class="relative flex min-h-[calc(100vh-4rem)] flex-col"
-            :class="config.allowOverflow ? 'overflow-visible' : 'overflow-hidden'"
+            :class="
+                config.allowOverflow ? 'overflow-visible' : 'overflow-hidden'
+            "
         >
             <div
                 class="relative z-10 flex flex-1 items-start justify-center px-6 pt-[20vh]"
@@ -305,9 +250,10 @@ onBeforeUnmount(() => {
             </svg>
             <video
                 ref="videoRef"
-                class="pointer-events-none absolute left-0 top-0 z-0 h-20 w-20 origin-center object-contain will-change-transform"
+                class="pointer-events-none absolute left-0 top-0 z-0 h-50 w-50 origin-center object-contain will-change-transform"
                 autoplay
                 muted
+                loop
                 playsinline
                 :src="birdVideo"
             ></video>
