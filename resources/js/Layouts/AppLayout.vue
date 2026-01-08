@@ -4,6 +4,13 @@ import Navbar from '@/Components/Navbar.vue';
 import MegaMenu from '@/Components/MegaMenu.vue';
 import ToastContainer from '@/Components/ToastContainer.vue';
 
+defineProps({
+    pageClass: {
+        type: String,
+        default: '',
+    },
+});
+
 const megaMenuOpen = ref(false);
 const theme = ref('light');
 
@@ -32,7 +39,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]">
+    <div
+        class="min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]"
+        :class="pageClass"
+    >
         <Navbar :is-open="megaMenuOpen" @toggle="toggleMegaMenu" />
         <MegaMenu
             :open="megaMenuOpen"

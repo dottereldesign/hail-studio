@@ -151,7 +151,7 @@ defineEmits(["close", "toggle-theme"]);
                         <img
                             :src="schoolSearchBg"
                             alt=""
-                            class="pointer-events-none absolute right-8 top-1/2 h-full w-auto -translate-y-1/2 translate-x-1/2 scale-140 object-cover mix-blend-multiply opacity-70"
+                            class="pointer-events-none absolute right-8 top-1/2 h-full w-auto -translate-y-1/2 translate-x-1/2 scale-140 object-cover opacity-70"
                             aria-hidden="true"
                         />
                     </Link>
