@@ -49,7 +49,7 @@
 
     :root[data-theme="dark"] {
         color-scheme: dark;
-        --color-bg: #0a0a0a;
+        --color-bg: #0b0b0b;
         --color-bg-soft: #0e0e0e;
         --color-surface: #0a0a0a;
         --color-surface-muted: #0e0e0e;

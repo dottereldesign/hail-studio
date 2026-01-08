@@ -1,14 +1,19 @@
 <script setup>
 import { Head } from "@inertiajs/vue3";
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import earthHero from "../../images/earthhero.png";
 import birdVideo from "../../images/animated_bird.mp4";
+import birdVideoDark from "../../images/animated_bird-darktheme.mp4";
 
 const stageRef = ref(null);
 const pathRef = ref(null);
 const videoRef = ref(null);
 const routeLength = ref(0);
+const themeMode = ref("light");
+const birdVideoSrc = computed(() =>
+    themeMode.value === "dark" ? birdVideoDark : birdVideo,
+);
 
 const config = {
     speed: 180,
@@ -34,6 +39,7 @@ let resizeObserver;
 let intersectionObserver;
 let reduceMotionQuery;
 let reduceMotionHandler;
+let themeObserver;
 let reducedMotion = false;
 let inView = true;
 
@@ -185,6 +191,19 @@ onMounted(() => {
         }
     };
     reduceMotionQuery.addEventListener("change", reduceMotionHandler);
+
+    if (typeof document !== "undefined") {
+        themeMode.value =
+            document.documentElement.dataset.theme || "light";
+        themeObserver = new MutationObserver(() => {
+            themeMode.value =
+                document.documentElement.dataset.theme || "light";
+        });
+        themeObserver.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["data-theme"],
+        });
+    }
 });
 
 onBeforeUnmount(() => {
@@ -193,6 +212,9 @@ onBeforeUnmount(() => {
     if (intersectionObserver) intersectionObserver.disconnect();
     if (reduceMotionQuery) {
         reduceMotionQuery.removeEventListener("change", reduceMotionHandler);
+    }
+    if (themeObserver) {
+        themeObserver.disconnect();
     }
 });
 </script>
@@ -218,7 +240,7 @@ onBeforeUnmount(() => {
                         <span
                             class="text-sm uppercase tracking-[0.3em] text-[var(--color-muted)]"
                         >
-                            Version 0.4
+                            Version 0.5
                         </span>
                     </div>
                     <div
@@ -255,7 +277,8 @@ onBeforeUnmount(() => {
                 muted
                 loop
                 playsinline
-                :src="birdVideo"
+                :src="birdVideoSrc"
+                :key="birdVideoSrc"
             ></video>
         </section>
         <div
